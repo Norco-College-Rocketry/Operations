@@ -17,6 +17,10 @@ qt_add_qml_module(appGSC_Commanding_Utility
     VERSION 1.0
     QML_FILES
         Main.qml
+        QML_FILES Tile.qml
+        QML_FILES ArmedAction.qml
+        QML_FILES OnOffControls.qml
+        QML_FILES MockActionTile.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
