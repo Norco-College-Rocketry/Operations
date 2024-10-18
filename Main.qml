@@ -22,12 +22,31 @@ Window {
 
       MockActionTile {}
       MockActionTile {}
-      MockActionTile {}
+      MockActionTile {
+        id: tile
+        RowLayout {
+          id: timer
 
-      Tile {
-        implicitHeight: childrenRect.height
-        implicitWidth: parent.width
-        Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.margins: 5; height: 100; width: 100; color: "lightyellow" }
+          property int countdown: 5000
+
+          Layout.fillWidth: true
+
+          Text {
+            id: label
+
+            Layout.fillWidth: true
+            text: (timer.countdown/1000).toFixed(3) + " s"
+            font.family: "Source Code Pro"
+            horizontalAlignment: Text.AlignLeft
+
+          }
+
+          NumberAnimation on countdown {
+            to: 0
+            duration: timer.countdown
+            running: tile.open
+          }
+        }
       }
 
       Tile {
