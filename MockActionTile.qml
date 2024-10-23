@@ -8,13 +8,11 @@ Tile {
   property alias open: on_off_controls.open
 
   implicitWidth: parent.width
-  implicitHeight: childrenRect.height + 10
+  implicitHeight: 100
 
   ArmedAction {
     id: action
-    implicitWidth: parent.width - 10
-    implicitHeight: childrenRect.height
-
+    anchors.fill: parent
     anchors.centerIn: parent
     anchors.margins: 5
 
