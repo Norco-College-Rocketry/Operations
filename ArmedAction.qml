@@ -6,6 +6,7 @@ ColumnLayout {
   id: root
 
   property alias armed: arm_switch.checked
+  property alias name: name_label.text
 
   RowLayout {
     id: arming_controls_container
@@ -14,9 +15,10 @@ ColumnLayout {
     uniformCellSizes: true
 
     Text {
+      id: name_label
       Layout.fillWidth: true
       Layout.alignment: Qt.AlignHCenter
-      text: "ACTION 1"
+      text: name
       horizontalAlignment: Text.AlignHCenter
     }
     Switch {

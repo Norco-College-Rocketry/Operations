@@ -22,15 +22,17 @@ Window {
       ObjectModel {
         id: action_model
 
-        MockActionTile {}
-        MockActionTile {}
-        MockActionTile {}
-        MockActionTile {}
-        MockActionTile {}
-        MockActionTile {}
+        MockActionTile { name: "ACTION 1" }
+        MockActionTile { name: "ACTION 2" }
+        MockActionTile { name: "ACTION 3" }
+        MockActionTile { name: "ACTION 4" }
+        MockActionTile { name: "ACTION 5" }
         MockActionTile {
           id: tile
           implicitHeight: 120
+
+          name: "ACTION 6"
+
           RowLayout {
             id: timer
 
@@ -95,7 +97,6 @@ Window {
           id: list_view
 
           anchors.fill: parent
-          anchors.margins: 5
 
           spacing: 5
           model: list_model
