@@ -13,18 +13,14 @@ Window {
     columns: 2
     anchors.margins: 5
 
-    Flickable { // TODO fix scrolling
+    Flickable {
       id: actions_container
       Layout.preferredWidth: 50
       Layout.fillWidth: true
       Layout.fillHeight: true
 
-      Column {
-        anchors.right: parent.right
-        anchors.left: parent.left
-        height: childrenRect.height
-
-        spacing: 5
+      ObjectModel {
+        id: action_model
 
         MockActionTile {}
         MockActionTile {}
@@ -59,6 +55,13 @@ Window {
             }
           }
         }
+      }
+
+      ListView {
+        anchors.fill: parent
+
+        spacing: 5
+        model: action_model
       }
     }
 
