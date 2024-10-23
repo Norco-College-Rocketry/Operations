@@ -22,13 +22,14 @@ Window {
       ObjectModel {
         id: action_model
 
-        MockActionTile { name: "ACTION 1" }
-        MockActionTile { name: "ACTION 2" }
-        MockActionTile { name: "ACTION 3" }
-        MockActionTile { name: "ACTION 4" }
-        MockActionTile { name: "ACTION 5" }
+        MockActionTile { name: "ACTION 1"; width: actions_view.width }
+        MockActionTile { name: "ACTION 2"; width: actions_view.width }
+        MockActionTile { name: "ACTION 3"; width: actions_view.width }
+        MockActionTile { name: "ACTION 4"; width: actions_view.width }
+        MockActionTile { name: "ACTION 5"; width: actions_view.width }
         MockActionTile {
           id: tile
+          width: actions_view.width
           implicitHeight: 120
 
           name: "ACTION 6"
@@ -60,6 +61,7 @@ Window {
       }
 
       ListView {
+        id: actions_view
         anchors.fill: parent
 
         spacing: 5

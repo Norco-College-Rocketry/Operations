@@ -8,7 +8,6 @@ Tile {
   property alias open: on_off_controls.open
   property alias name: action.name
 
-  implicitWidth: parent.width
   implicitHeight: 100
 
   ArmedAction {
