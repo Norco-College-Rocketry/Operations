@@ -10,6 +10,8 @@ Tile {
 
   implicitHeight: 100
 
+  color: on_off_controls.armed ? "lightgray" : "darkgray"
+
   ArmedAction {
     id: action
     anchors.fill: parent
