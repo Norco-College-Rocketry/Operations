@@ -10,7 +10,8 @@ Tile {
 
   implicitHeight: 100
 
-  color: on_off_controls.armed ? "lightgray" : "darkgray"
+  radius: 4
+  color: on_off_controls.armed ? "#FAF4DA" : "#B3AE9B"
 
   ArmedAction {
     id: action

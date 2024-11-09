@@ -8,64 +8,74 @@ Window {
   visible: true
   title: qsTr("GSC Operations Application - Norco College Rocketry")
 
+  color: "#6D8F99"
+
   GridLayout {
     anchors.fill: parent
     columns: 2
     anchors.margins: 5
 
-    Flickable {
+    Rectangle {
       id: actions_container
       Layout.preferredWidth: 50
       Layout.fillWidth: true
       Layout.fillHeight: true
 
-      ObjectModel {
-        id: action_model
+      radius: 5
+      color: "#FAF4DA"
 
-        MockActionTile { name: "ACTION 1"; width: actions_view.width }
-        MockActionTile { name: "ACTION 2"; width: actions_view.width }
-        MockActionTile { name: "ACTION 3"; width: actions_view.width }
-        MockActionTile { name: "ACTION 4"; width: actions_view.width }
-        MockActionTile { name: "ACTION 5"; width: actions_view.width }
-        MockActionTile {
-          id: tile
-          width: actions_view.width
-          implicitHeight: 120
+      Flickable {
+        anchors.fill: parent
+        anchors.margins: 5
 
-          name: "ACTION 6"
+        ObjectModel {
+          id: action_model
 
-          RowLayout {
-            id: timer
+          MockActionTile { name: "ACTION 1"; width: actions_view.width }
+          MockActionTile { name: "ACTION 2"; width: actions_view.width }
+          MockActionTile { name: "ACTION 3"; width: actions_view.width }
+          MockActionTile { name: "ACTION 4"; width: actions_view.width }
+          MockActionTile { name: "ACTION 5"; width: actions_view.width }
+          // Mock timed sequence
+          MockActionTile {
+            id: tile
+            width: actions_view.width
+            implicitHeight: 125
 
-            property int countdown: 5000
+            name: "ACTION 6"
 
-            Layout.fillWidth: true
+            RowLayout {
+              id: timer
 
-            Text {
-              id: label
+              property int countdown: 5000
 
               Layout.fillWidth: true
-              text: (timer.countdown/1000).toFixed(3) + " s"
-              font.family: "Source Code Pro"
-              horizontalAlignment: Text.AlignLeft
 
-            }
+              Text {
+                id: label
 
-            NumberAnimation on countdown {
-              to: 0
-              duration: timer.countdown
-              running: tile.open
+                Layout.fillWidth: true
+                text: (timer.countdown/1000).toFixed(3) + " s"
+                horizontalAlignment: Text.AlignLeft
+
+              }
+
+              NumberAnimation on countdown {
+                to: 0
+                duration: timer.countdown
+                running: tile.open
+              }
             }
           }
         }
-      }
 
-      ListView {
-        id: actions_view
-        anchors.fill: parent
+        ListView {
+          id: actions_view
+          anchors.fill: parent
 
-        spacing: 5
-        model: action_model
+          spacing: 5
+          model: action_model
+        }
       }
     }
 
@@ -76,7 +86,9 @@ Window {
       Layout.fillWidth: true
       Layout.fillHeight: true
 
-      color: "gray"
+      radius: 4
+      // color: "#DDDECE"
+      color: "#FAF4DA"
       border.color: "black"
       border.width: 1
 
@@ -88,11 +100,11 @@ Window {
 
         ListModel {
           id: list_model
-          ListElement { name: "Fuel Pressure"; value: "759 psi" }
-          ListElement { name: "Oxidizer Pressure"; value: "802 psi" }
-          ListElement { name: "Tank Temp "; value: "18 \u00b0C" }
-          ListElement { name: "Combustion Pressure"; value: "298 psi" }
-          ListElement { name: "Combustion Temp"; value: "3109\u00b0C" }
+          ListElement { name: "FUEL PRESSURE"; value: "759 psi" }
+          ListElement { name: "OX PRESSURE"; value: "802 psi" }
+          ListElement { name: "TANK TEMP"; value: "18 \u00b0C" }
+          ListElement { name: "CC PRESSURE"; value: "298 psi" }
+          ListElement { name: "CC TEMP"; value: "3109\u00b0C" }
         }
 
         ListView {

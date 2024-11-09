@@ -1,10 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QFont>
 
 int
 main (int argc, char *argv[])
 {
   QGuiApplication app (argc, argv);
+  QFont font("Source Code Pro");
+  app.setFont(font);
 
   QQmlApplicationEngine engine;
   QObject::connect (
