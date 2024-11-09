@@ -4,7 +4,7 @@ project(GSC_Commanding_Utility VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Mqtt)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -21,6 +21,9 @@ qt_add_qml_module(appGSC_Commanding_Utility
         QML_FILES ArmedAction.qml
         QML_FILES OnOffControls.qml
         QML_FILES MockActionTile.qml
+        SOURCES commandservice.h commandservice.cpp
+        SOURCES command.h command.cpp
+        SOURCES mqttcommandservice.h mqttcommandservice.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -35,7 +38,7 @@ set_target_properties(appGSC_Commanding_Utility PROPERTIES
 )
 
 target_link_libraries(appGSC_Commanding_Utility
-    PRIVATE Qt6::Quick
+    PRIVATE Qt6::Quick Qt6::Mqtt
 )
 
 include(GNUInstallDirs)
