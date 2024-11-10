@@ -1,6 +1,6 @@
 import QtQuick
 
-ArmedActionTile {
+ArmingTile {
   id: root
 
   required property CommandAction action

@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-ArmedActionTile {
+ArmingTile {
   id: root
 
   required property CommandAction action

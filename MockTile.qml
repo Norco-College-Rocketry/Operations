@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 
-ArmedActionTile {
+ArmingTile {
   id: root
 
   property alias open: on_off_controls.on

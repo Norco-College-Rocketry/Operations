@@ -52,40 +52,41 @@ Window {
 
         ObjectModel {
           id: action_model
-          CommandTestTile {
+          CommandTile {
             action: CommandAction { service: controller.commandService }
+            name: "TEST COMMAND"
             width: actions_view.width
           }
-          ValveActionTile {
+          CommandPairTile {
             action: CommandAction { service: controller.commandService }
             name: "FILL VALVE"
             command: "FILL_VALVE"
             width: actions_view.width
           }
-          ValveActionTile {
+          CommandPairTile {
             action: CommandAction { service: controller.commandService }
             name: "OX VALVE"
             command: "OX_VALVE"
             width: actions_view.width
           }
-          ValveActionTile {
+          CommandPairTile {
             action: CommandAction { service: controller.commandService }
             name: "FUEL VALVE"
             command: "FUEL_VALVE"
             width: actions_view.width
           }
-          ValveActionTile {
+          CommandPairTile {
             action: CommandAction { service: controller.commandService }
             name: "PURGE VALVE"
             command: "PURGE_VALVE"
             width: actions_view.width
           }
-          MockActionTile { name: "ACTION 2"; width: actions_view.width }
-          MockActionTile { name: "ACTION 3"; width: actions_view.width }
-          MockActionTile { name: "ACTION 4"; width: actions_view.width }
-          MockActionTile { name: "ACTION 5"; width: actions_view.width }
+          MockTile { name: "ACTION 2"; width: actions_view.width }
+          MockTile { name: "ACTION 3"; width: actions_view.width }
+          MockTile { name: "ACTION 4"; width: actions_view.width }
+          MockTile { name: "ACTION 5"; width: actions_view.width }
           // Mock timed sequence
-          MockActionTile {
+          MockTile {
             id: tile
             width: actions_view.width
             implicitHeight: 125

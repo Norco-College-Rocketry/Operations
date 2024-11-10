@@ -10,7 +10,7 @@ Tile {
   radius: 4
   color: arming_controls.armed ? "#FAF4DA" : "#B3AE9B"
 
-  ArmedAction {
+  ArmingControls {
     id: arming_controls
     anchors.fill: parent
     anchors.centerIn: parent
