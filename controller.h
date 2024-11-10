@@ -24,8 +24,6 @@ public:
   Q_INVOKABLE void error(QString msg) { }
   Q_INVOKABLE void warn(QString msg) { }
 
-  Q_INVOKABLE NCR::CommandAction* create_command_action(const QString& command = "", const QMap<QString, QString>& parameters = QMap<QString, QString>());
-
   QmlMqttClient* mqtt() { return mqtt_; }
   CommandService* commandService() { return command_service_; }
 
