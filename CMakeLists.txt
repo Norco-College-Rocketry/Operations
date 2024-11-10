@@ -50,6 +50,7 @@ qt_add_qml_module(appGSC_Operations
         SOURCES controller.h controller.cpp
         SOURCES action.h action.cpp
         QML_FILES CommandPairTile.qml
+        SOURCES qmlqsettings.h qmlqsettings.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
