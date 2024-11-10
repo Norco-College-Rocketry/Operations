@@ -25,6 +25,7 @@ public:
   void mqtt(QmlMqttClient* mqtt) {
     mqtt_ = mqtt;
     QObject::connect(mqtt_, &QmlMqttClient::stateChanged, this, &Controller::onMqttStateChanged);
+    emit mqttChanged();
   }
 
 signals:
