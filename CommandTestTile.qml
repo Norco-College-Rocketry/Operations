@@ -4,9 +4,12 @@ import QtQuick.Controls
 ArmedActionTile {
   id: root
 
-  required property MqttClient mqtt
-  property string topic: "command"
+  required property CommandAction command_action
   property string command: "TEST"
+
+  Component.onCompleted: {
+    command_action.set_command(root.command);
+  }
 
   implicitHeight: 80
 
@@ -16,6 +19,8 @@ ArmedActionTile {
     implicitWidth: parent.width
     text: "SEND TEST COMMAND"
     enabled: parent.armed
-    onClicked: { mqtt.publish(root.topic, root.command) }
+    onClicked: {
+      command_action.execute();
+    }
   }
 }

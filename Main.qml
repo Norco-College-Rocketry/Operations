@@ -4,6 +4,12 @@ import QtQuick.Layouts
 Window {
   id: root
 
+  MqttCommandService {
+    id: mqtt_command_service
+    client: controller.mqtt
+    topic: "command"
+  }
+
   Controller {
     id: controller
 
@@ -11,6 +17,8 @@ Window {
       hostname: "localhost"
       port: 1883
     }
+
+    commandService: mqtt_command_service.interface
   }
 
   Component.onCompleted: {
@@ -44,7 +52,10 @@ Window {
 
         ObjectModel {
           id: action_model
-          CommandTestTile { mqtt: controller.mqtt; width: actions_view.width }
+          CommandTestTile {
+            command_action: CommandAction { service: controller.commandService }
+            width: actions_view.width
+          }
           MockActionTile { name: "ACTION 1"; width: actions_view.width }
           MockActionTile { name: "ACTION 2"; width: actions_view.width }
           MockActionTile { name: "ACTION 3"; width: actions_view.width }
