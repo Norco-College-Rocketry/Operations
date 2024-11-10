@@ -2,10 +2,12 @@
 #include <QQmlApplicationEngine>
 #include <QFont>
 
-#include <QtMqtt/QMqttClient>
+#include <spdlog/spdlog.h>
 
 int main (int argc, char *argv[])
 {
+  spdlog::info("Starting GSC Operations Application...");
+
   QGuiApplication app (argc, argv);
   QFont font("Source Code Pro");
   app.setFont(font);
@@ -14,7 +16,7 @@ int main (int argc, char *argv[])
   QObject::connect (
     &engine, &QQmlApplicationEngine::objectCreationFailed, &app,
     [] () { QCoreApplication::exit (-1); }, Qt::QueuedConnection);
-  engine.loadFromModule ("GSC_Commanding_Utility", "Main");
+  engine.loadFromModule ("GSC_Operations", "Main");
 
   return app.exec ();
 }
