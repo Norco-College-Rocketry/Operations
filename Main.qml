@@ -2,24 +2,22 @@ import QtQuick
 import QtQuick.Layouts
 
 Window {
+  id: root
+
+  Controller {
+    id: controller
+  }
+
+  Component.onCompleted: {
+    controller.mqtt.connectToHost();
+  }
+
   width: 480
   height: 800
   visible: true
   title: qsTr("GSC Operations Application - Norco College Rocketry")
 
   color: "#6D8F99"
-
-  MqttClient {
-    id: mqtt_client
-    hostname: "localhost"
-    port: 1883
-
-    onStateChanged: controller.info("MQTT client state changed: "+state);
-  }
-
-  Component.onCompleted: {
-    mqtt_client.connectToHost();
-  }
 
   GridLayout {
     anchors.fill: parent
@@ -41,7 +39,7 @@ Window {
 
         ObjectModel {
           id: action_model
-          CommandTestTile { mqtt: mqtt_client; width: actions_view.width }
+          CommandTestTile { mqtt: controller.mqtt; width: actions_view.width }
           MockActionTile { name: "ACTION 1"; width: actions_view.width }
           MockActionTile { name: "ACTION 2"; width: actions_view.width }
           MockActionTile { name: "ACTION 3"; width: actions_view.width }

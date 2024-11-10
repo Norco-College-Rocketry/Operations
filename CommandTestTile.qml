@@ -16,6 +16,6 @@ ArmedActionTile {
     implicitWidth: parent.width
     text: "SEND TEST COMMAND"
     enabled: parent.armed
-    onClicked: { mqtt_client.publish(root.topic, root.command) }
+    onClicked: { mqtt.publish(root.topic, root.command) }
   }
 }
