@@ -4,7 +4,7 @@ ArmedActionTile {
   id: root
 
   required property CommandAction action
-  property string command: "FILL_VALVE"
+  required property string command
 
   Component.onCompleted: {
     action.set_command(root.command);

@@ -59,6 +59,25 @@ Window {
           ValveActionTile {
             action: CommandAction { service: controller.commandService }
             name: "FILL VALVE"
+            command: "FILL_VALVE"
+            width: actions_view.width
+          }
+          ValveActionTile {
+            action: CommandAction { service: controller.commandService }
+            name: "OX VALVE"
+            command: "OX_VALVE"
+            width: actions_view.width
+          }
+          ValveActionTile {
+            action: CommandAction { service: controller.commandService }
+            name: "FUEL VALVE"
+            command: "FUEL_VALVE"
+            width: actions_view.width
+          }
+          ValveActionTile {
+            action: CommandAction { service: controller.commandService }
+            name: "PURGE VALVE"
+            command: "PURGE_VALVE"
             width: actions_view.width
           }
           MockActionTile { name: "ACTION 2"; width: actions_view.width }

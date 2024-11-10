@@ -39,7 +39,10 @@ private:
   QmlMqttClient* client_;
 
   std::unordered_map<std::string, std::string> topics_ = {
-          { "FILL_VALVE", "/valve/fill"}
+          { "FILL_VALVE", "/valve/fill"},
+          { "OX_VALVE", "/valve/ox"},
+          { "FUEL_VALVE", "/valve/fuel"},
+          { "PURGE_VALVE", "/valve/purge"},
   };
 };
 
