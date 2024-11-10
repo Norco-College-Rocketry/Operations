@@ -5,6 +5,7 @@ project(GSC_Operations VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Mqtt)
+find_package(spdlog REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -32,7 +33,7 @@ qt_add_executable(appGSC_Operations
 )
 
 qt_add_qml_module(appGSC_Operations
-    URI GSC_Commanding_Utility
+    URI GSC_Operations
     VERSION 1.0
     QML_FILES
         Main.qml
@@ -61,7 +62,7 @@ set_target_properties(appGSC_Operations PROPERTIES
 )
 
 target_link_libraries(appGSC_Operations
-    PRIVATE Qt6::Quick Qt6::Mqtt
+    PRIVATE Qt6::Quick Qt6::Mqtt spdlog::spdlog
 )
 
 include(GNUInstallDirs)
