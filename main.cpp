@@ -2,8 +2,9 @@
 #include <QQmlApplicationEngine>
 #include <QFont>
 
-int
-main (int argc, char *argv[])
+#include <QtMqtt/QMqttClient>
+
+int main (int argc, char *argv[])
 {
   QGuiApplication app (argc, argv);
   QFont font("Source Code Pro");

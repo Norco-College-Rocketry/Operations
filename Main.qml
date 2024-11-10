@@ -10,6 +10,18 @@ Window {
 
   color: "#6D8F99"
 
+  MqttClient {
+    id: mqtt_client
+    hostname: "localhost"
+    port: 1883
+
+    onStateChanged: console.log("state changed: ", state);
+  }
+
+  Component.onCompleted: {
+    mqtt_client.connectToHost();
+  }
+
   GridLayout {
     anchors.fill: parent
     columns: 2
@@ -30,7 +42,7 @@ Window {
 
         ObjectModel {
           id: action_model
-
+          CommandTestTile { mqtt: mqtt_client; width: actions_view.width }
           MockActionTile { name: "ACTION 1"; width: actions_view.width }
           MockActionTile { name: "ACTION 2"; width: actions_view.width }
           MockActionTile { name: "ACTION 3"; width: actions_view.width }
