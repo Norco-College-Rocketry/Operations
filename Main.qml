@@ -54,7 +54,9 @@ Window {
           id: action_model
           CommandTile {
             action: CommandAction { service: controller.commandService }
-            name: "TEST COMMAND"
+            name: "ABORT"
+            command: "ABORT"
+            text: "ABORT"
             width: actions_view.width
           }
           CommandPairTile {
@@ -81,10 +83,13 @@ Window {
             command: "PURGE_VALVE"
             width: actions_view.width
           }
-          MockTile { name: "ACTION 2"; width: actions_view.width }
-          MockTile { name: "ACTION 3"; width: actions_view.width }
-          MockTile { name: "ACTION 4"; width: actions_view.width }
-          MockTile { name: "ACTION 5"; width: actions_view.width }
+          CommandTile {
+            action: CommandAction { service: controller.commandService }
+            name: "CMD TEST"
+            command: "TEST"
+            text: "SEND TEST COMMAND"
+            width: actions_view.width
+          }
           // Mock timed sequence
           MockTile {
             id: tile

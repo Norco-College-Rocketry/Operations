@@ -17,8 +17,11 @@ ArmingTile {
     armed: parent.armed
     implicitWidth: parent.width
 
-    on_text: "Open"
-    off_text: "Closed"
+    on_text: "OPEN"
+    off_text: "CLOSED"
+
+    on_button.text: on_text
+    off_button.text: off_text
 
     on_button.onClicked: {
       action.set_parameter("position", "open");

@@ -5,7 +5,9 @@ ArmingTile {
   id: root
 
   required property CommandAction action
-  property string command: "TEST"
+  required property string command
+
+  property alias text: button.text
 
   Component.onCompleted: {
     action.set_command(root.command);
@@ -13,11 +15,10 @@ ArmingTile {
 
   implicitHeight: 80
 
-  name: "CMD TEST"
-
   Button {
+    id: button
     implicitWidth: parent.width
-    text: "SEND TEST COMMAND"
+    text: "SEND COMMAND"
     enabled: parent.armed
     onClicked: {
       root.action.execute();
