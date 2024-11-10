@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
 
 Window {
   width: 480
@@ -15,7 +14,7 @@ Window {
     hostname: "localhost"
     port: 1883
 
-    onStateChanged: console.log("state changed: ", state);
+    onStateChanged: controller.info("MQTT client state changed: "+state);
   }
 
   Component.onCompleted: {
