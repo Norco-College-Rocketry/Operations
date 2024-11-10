@@ -14,17 +14,16 @@ if (ENABLE_TESTS)
   enable_testing()
   include(GoogleTest)
   add_subdirectory(Tests)
-  add_library(libGSC_Operations
+  qt_add_library(libGSC_Operations
     commandservice.h
     commandservice.cpp
     command.h
     command.cpp
-    mqttcommandservice.h
-    mqttcommandservice.cpp
+    action.h
+    action.cpp
   )
-
-  target_link_libraries(libGSC_Operations
-      PRIVATE Qt6::Mqtt
+  target_link_libraries(libGSC_Operations PRIVATE
+    Qt6::Quick
   )
 endif(ENABLE_TESTS)
 
@@ -38,17 +37,19 @@ qt_add_qml_module(appGSC_Operations
     QML_FILES
         Main.qml
         QML_FILES Tile.qml
-        QML_FILES ArmedAction.qml
+        QML_FILES ArmingControls.qml
         QML_FILES OnOffControls.qml
-        QML_FILES MockActionTile.qml
+        QML_FILES MockTile.qml
         SOURCES commandservice.h commandservice.cpp
         SOURCES command.h command.cpp
         SOURCES mqttcommandservice.h mqttcommandservice.cpp
         SOURCES mqttcommand.h mqttcommand.cpp
         SOURCES qmlmqttclient.h qmlmqttclient.cpp
-        QML_FILES ArmedActionTile.qml
-        QML_FILES CommandTestTile.qml
+        QML_FILES ArmingTile.qml
+        QML_FILES CommandTile.qml
         SOURCES controller.h controller.cpp
+        SOURCES action.h action.cpp
+        QML_FILES CommandPairTile.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

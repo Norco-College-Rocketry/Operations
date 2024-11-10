@@ -28,7 +28,7 @@ if (NOT GTest_FOUND)
 endif()
 
 add_executable(MqttCommandTest main.cpp tst_mqttcommandtest.cpp)
-add_test(NAME MqttCommandTest COMMAND MqttCommandTest)
+add_test(NAME MqttCommandTest COMMAND CommandActionTest)
 
 target_link_libraries(MqttCommandTest PRIVATE
   GTest::GTest

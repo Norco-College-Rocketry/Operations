@@ -15,6 +15,7 @@ class QmlMqttClient : public QObject
   Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
   Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
   Q_PROPERTY(QMqttClient::ClientState state READ state WRITE setState NOTIFY stateChanged)
+  Q_PROPERTY(QMqttClient::ClientError error READ error NOTIFY errorChanged)
   QML_NAMED_ELEMENT(MqttClient)
   QML_EXTENDED_NAMESPACE(QMqttClient)
 public:
@@ -34,11 +35,14 @@ public:
   const QMqttClient::ClientState state() const;
   void setState(const QMqttClient::ClientState &newState);
 
+  const QMqttClient::ClientError error() const;
+
 signals:
   void hostnameChanged();
   void portChanged();
 
   void stateChanged();
+  void errorChanged();
 
 private:
   Q_DISABLE_COPY(QmlMqttClient)

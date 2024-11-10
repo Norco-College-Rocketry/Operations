@@ -2,24 +2,35 @@ import QtQuick
 import QtQuick.Layouts
 
 Window {
+  id: root
+
+  MqttCommandService {
+    id: mqtt_command_service
+    client: controller.mqtt
+    topic: "command"
+  }
+
+  Controller {
+    id: controller
+
+    mqtt: MqttClient {
+      hostname: "localhost"
+      port: 1883
+    }
+
+    commandService: mqtt_command_service.interface
+  }
+
+  Component.onCompleted: {
+    controller.mqtt.connectToHost();
+  }
+
   width: 480
   height: 800
   visible: true
   title: qsTr("GSC Operations Application - Norco College Rocketry")
 
   color: "#6D8F99"
-
-  MqttClient {
-    id: mqtt_client
-    hostname: "localhost"
-    port: 1883
-
-    onStateChanged: controller.info("MQTT client state changed: "+state);
-  }
-
-  Component.onCompleted: {
-    mqtt_client.connectToHost();
-  }
 
   GridLayout {
     anchors.fill: parent
@@ -41,14 +52,46 @@ Window {
 
         ObjectModel {
           id: action_model
-          CommandTestTile { mqtt: mqtt_client; width: actions_view.width }
-          MockActionTile { name: "ACTION 1"; width: actions_view.width }
-          MockActionTile { name: "ACTION 2"; width: actions_view.width }
-          MockActionTile { name: "ACTION 3"; width: actions_view.width }
-          MockActionTile { name: "ACTION 4"; width: actions_view.width }
-          MockActionTile { name: "ACTION 5"; width: actions_view.width }
+          CommandTile {
+            action: CommandAction { service: controller.commandService }
+            name: "ABORT"
+            command: "ABORT"
+            text: "ABORT"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            action: CommandAction { service: controller.commandService }
+            name: "FILL VALVE"
+            command: "FILL_VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            action: CommandAction { service: controller.commandService }
+            name: "OX VALVE"
+            command: "OX_VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            action: CommandAction { service: controller.commandService }
+            name: "FUEL VALVE"
+            command: "FUEL_VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            action: CommandAction { service: controller.commandService }
+            name: "PURGE VALVE"
+            command: "PURGE_VALVE"
+            width: actions_view.width
+          }
+          CommandTile {
+            action: CommandAction { service: controller.commandService }
+            name: "CMD TEST"
+            command: "TEST"
+            text: "SEND TEST COMMAND"
+            width: actions_view.width
+          }
           // Mock timed sequence
-          MockActionTile {
+          MockTile {
             id: tile
             width: actions_view.width
             implicitHeight: 125
