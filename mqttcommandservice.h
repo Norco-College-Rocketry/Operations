@@ -37,6 +37,10 @@ signals:
 private:
   QString topic_;
   QmlMqttClient* client_;
+
+  std::unordered_map<std::string, std::string> topics_ = {
+          { "FILL_VALVE", "/valve/fill"}
+  };
 };
 
 }
