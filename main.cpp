@@ -5,13 +5,9 @@
 
 #include <spdlog/spdlog.h>
 
-#include "controller.h"
-
 int main (int argc, char *argv[])
 {
   spdlog::info("Starting GSC Operations Application...");
-
-  NCR::Controller controller;
 
   QGuiApplication app (argc, argv);
   QFont font("Source Code Pro");

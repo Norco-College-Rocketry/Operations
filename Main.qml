@@ -6,6 +6,11 @@ Window {
 
   Controller {
     id: controller
+
+    mqtt: MqttClient {
+      hostname: "localhost"
+      port: 1883
+    }
   }
 
   Component.onCompleted: {

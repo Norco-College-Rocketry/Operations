@@ -4,14 +4,6 @@
 
 using namespace NCR;
 
-Controller::Controller (QObject *parent) : QObject(parent) {
-  mqtt_ = new QmlMqttClient(this);
-  mqtt_->setHostname("localhost");
-  mqtt_->setPort(1883);
-
-  QObject::connect(mqtt_, &QmlMqttClient::stateChanged, this, &NCR::Controller::onMqttStateChanged);
-}
-
 void Controller::info(QString msg) {
   spdlog::info(msg.toStdString());
 }
