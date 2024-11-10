@@ -7,8 +7,12 @@ ColumnLayout {
 
   implicitHeight: childrenRect.height
 
+  property string on_text: "On"
+  property string off_text: "Off"
+  property alias on_button: on_button
+  property alias off_button: off_button
   property bool armed: false
-  property bool open: false
+  property bool on: false
 
  RowLayout {
    id: action_1_controls
@@ -18,16 +22,18 @@ ColumnLayout {
    uniformCellSizes: true
 
    Button {
+     id: on_button
      Layout.fillWidth: true
      text: "ON"
      enabled: root.armed
-     onClicked: () => root.open = true;
+     onClicked: () => root.on = true;
    }
    Button {
+     id: off_button
      Layout.fillWidth: true
      text: "OFF"
      enabled: root.armed
-     onClicked: () => root.open = false;
+     onClicked: () => root.on = false;
    }
  }
 
@@ -36,9 +42,10 @@ ColumnLayout {
    implicitHeight: childrenRect.height
 
    Text {
+     id: indicator
      anchors.left: parent.left
      anchors.right: parent.right
-     text: root.open ? "Open" : "Closed"
+     text: root.on ? root.on_text : root.off_text
      rightPadding: 5
      horizontalAlignment: Text.AlignHCenter
    }

@@ -22,7 +22,7 @@ public:
   }
 
   std::string command() const noexcept { return command_; }
-  std::unordered_map<std::string, std::string> parameters() noexcept { return params_; }
+  std::unordered_map<std::string, std::string> parameters() const noexcept { return params_; }
 
 private:
   std::string command_;

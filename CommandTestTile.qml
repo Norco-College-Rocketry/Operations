@@ -4,11 +4,11 @@ import QtQuick.Controls
 ArmedActionTile {
   id: root
 
-  required property CommandAction command_action
+  required property CommandAction action
   property string command: "TEST"
 
   Component.onCompleted: {
-    command_action.set_command(root.command);
+    action.set_command(root.command);
   }
 
   implicitHeight: 80
@@ -20,7 +20,7 @@ ArmedActionTile {
     text: "SEND TEST COMMAND"
     enabled: parent.armed
     onClicked: {
-      command_action.execute();
+      root.action.execute();
     }
   }
 }

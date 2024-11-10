@@ -53,10 +53,14 @@ Window {
         ObjectModel {
           id: action_model
           CommandTestTile {
-            command_action: CommandAction { service: controller.commandService }
+            action: CommandAction { service: controller.commandService }
             width: actions_view.width
           }
-          MockActionTile { name: "ACTION 1"; width: actions_view.width }
+          ValveActionTile {
+            action: CommandAction { service: controller.commandService }
+            name: "FILL VALVE"
+            width: actions_view.width
+          }
           MockActionTile { name: "ACTION 2"; width: actions_view.width }
           MockActionTile { name: "ACTION 3"; width: actions_view.width }
           MockActionTile { name: "ACTION 4"; width: actions_view.width }
