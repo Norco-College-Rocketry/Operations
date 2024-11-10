@@ -11,6 +11,7 @@ QmlMqttClient::QmlMqttClient(QObject *parent)
   connect(&m_client, &QMqttClient::hostnameChanged, this, &QmlMqttClient::hostnameChanged);
   connect(&m_client, &QMqttClient::portChanged, this, &QmlMqttClient::portChanged);
   connect(&m_client, &QMqttClient::stateChanged, this, &QmlMqttClient::stateChanged);
+  connect(&m_client, &QMqttClient::errorChanged, this, &QmlMqttClient::errorChanged);
 }
 
 void QmlMqttClient::connectToHost()
@@ -50,6 +51,11 @@ void QmlMqttClient::setPort(int newPort)
 const QMqttClient::ClientState QmlMqttClient::state() const
 {
   return m_client.state();
+}
+
+const QMqttClient::ClientError QmlMqttClient::error() const
+{
+  return m_client.error();
 }
 
 void QmlMqttClient::setState(const QMqttClient::ClientState &newState)
