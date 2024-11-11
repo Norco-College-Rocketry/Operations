@@ -155,11 +155,15 @@ Window {
 
         ListModel {
           id: list_model
-          ListElement { name: "FUEL PRESSURE"; value: "759 psi" }
-          ListElement { name: "OX PRESSURE"; value: "802 psi" }
-          ListElement { name: "TANK TEMP"; value: "18 \u00b0C" }
-          ListElement { name: "CC PRESSURE"; value: "298 psi" }
-          ListElement { name: "CC TEMP"; value: "3109\u00b0C" }
+          ListElement { name: "TANK PRESSURE"; topic: "pressure/tank"; units: "psi" }
+          ListElement { name: "INJECTOR PRESSURE"; topic: "pressure/injector"; units: "psi" }
+          ListElement { name: "FEED PRESSURE"; topic: "pressure/feed"; units: "psi" }
+          ListElement { name: "INJECTOR TEMP"; topic: "temperature/injector"; units: "\u00b0C" }
+          ListElement { name: "VENT TEMP"; topic: "temperature/vent"; units: "\u00b0C" }
+          ListElement { name: "CC TEMP"; topic: "temperature/chamber"; units: "\u00b0C" }
+          ListElement { name: "LOAD CELL 1"; topic: "load_cell/1"; units: "g" }
+          ListElement { name: "LOAD CELL 2"; topic: "load_cell/2"; units: "g" }
+          ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave"; units: "" }
         }
 
         ListView {
@@ -176,6 +180,20 @@ Window {
 
             border.color: "black"
             border.width: 1
+
+            property string value: "NC"
+
+            Component.onCompleted: {
+              controller.mqtt.stateChanged.connect(() => {
+                if (controller.mqtt.state == 2) {
+                  controller.mqtt.subscribe(topic)
+                    .messageReceived.connect((message) => {
+                      let val = JSON.parse(message)["value"]?.concat(" ", units) ?? message;
+                      value = val;
+                  });
+                }
+              });
+            }
 
             RowLayout {
               height: 20

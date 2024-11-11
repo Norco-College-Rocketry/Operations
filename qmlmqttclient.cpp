@@ -5,6 +5,18 @@
 #include <QDebug>
 #include <QMqttTopicName>
 
+QmlMqttSubscription::QmlMqttSubscription(QMqttSubscription *s, QmlMqttClient *c)
+        : sub(s)
+        , client(c)
+{
+  connect(sub, &QMqttSubscription::messageReceived, this, &QmlMqttSubscription::handleMessage);
+  m_topic = sub->topic();
+}
+
+QmlMqttSubscription::~QmlMqttSubscription()
+{
+}
+
 QmlMqttClient::QmlMqttClient(QObject *parent)
   : QObject(parent)
 {
@@ -22,6 +34,18 @@ void QmlMqttClient::connectToHost()
 void QmlMqttClient::disconnectFromHost()
 {
   m_client.disconnectFromHost();
+}
+
+QmlMqttSubscription* QmlMqttClient::subscribe(const QString &topic)
+{
+  auto sub = m_client.subscribe(topic, 0);
+  auto result = new QmlMqttSubscription(sub, this);
+  return result;
+}
+
+void QmlMqttSubscription::handleMessage(const QMqttMessage &qmsg)
+{
+  emit messageReceived(qmsg.payload());
 }
 
 const QString QmlMqttClient::hostname() const
