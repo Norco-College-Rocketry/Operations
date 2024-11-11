@@ -9,6 +9,10 @@ int main (int argc, char *argv[])
 {
   spdlog::info("Starting GSC Operations Application...");
 
+  QCoreApplication::setOrganizationName("Norco College Rocketry");
+  QCoreApplication::setOrganizationDomain("github.com/Norco-College-Rocketry");
+  QCoreApplication::setApplicationName("GSC Operations");
+
   QGuiApplication app (argc, argv);
   QFont font("Source Code Pro");
   app.setFont(font);

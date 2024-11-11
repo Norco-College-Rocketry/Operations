@@ -10,8 +10,8 @@ void MqttCommandService::send_command(const Command& command) {
   std::string msg;
 
   QString topic = topic_;
-  if (topics_.count(command.command())) {
-    topic += topics_[command.command()];
+  if (subtopics_->contains(QString::fromStdString(command.command()))) {
+    topic += (*subtopics_)[QString::fromStdString(command.command())];
 
     QJsonObject json;
     for (const auto& [name, value] : command.parameters()) {

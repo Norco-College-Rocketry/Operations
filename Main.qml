@@ -7,22 +7,23 @@ Window {
   MqttCommandService {
     id: mqtt_command_service
     client: controller.mqtt
-    topic: "command"
+    topic: controller.settings.value("mqtt/command_topic", "commands")
   }
 
   Controller {
     id: controller
 
     mqtt: MqttClient {
-      hostname: "localhost"
-      port: 1883
+      hostname: controller.settings.value("mqtt/hostname", "localhost")
+      port: controller.settings.value("mqtt/port", 1883)
     }
-
     commandService: mqtt_command_service.interface
+    settings: QSettings { }
   }
 
   Component.onCompleted: {
     controller.mqtt.connectToHost();
+    controller.initialize_settings(controller.settings);
   }
 
   width: 480

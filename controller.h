@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtQml/qqml.h>
 
+#include "qmlqsettings.h"
 #include "qmlmqttclient.h"
 #include "commandservice.h"
 #include "action.h"
@@ -15,6 +16,7 @@ class Controller : public QObject
   Q_OBJECT
   Q_PROPERTY(QmlMqttClient* mqtt READ mqtt WRITE mqtt NOTIFY mqttChanged REQUIRED)
   Q_PROPERTY(NCR::CommandService* commandService READ commandService WRITE commandService NOTIFY commandServiceChanged REQUIRED)
+  Q_PROPERTY(QmlQSettings* settings READ settings WRITE settings NOTIFY settingsChanged REQUIRED)
   QML_ELEMENT
 public:
   explicit Controller (QObject *parent = nullptr) : QObject(parent) { }
@@ -24,9 +26,16 @@ public:
   Q_INVOKABLE void error(QString msg) { }
   Q_INVOKABLE void warn(QString msg) { }
 
+  Q_INVOKABLE void initialize_settings(QmlQSettings* settings);
+
+  QmlQSettings* settings() { return settings_; }
   QmlMqttClient* mqtt() { return mqtt_; }
   CommandService* commandService() { return command_service_; }
 
+  void settings(QmlQSettings* settings) {
+    settings_ = settings;
+    emit settingsChanged();
+  }
   void commandService(CommandService* command_service) {
     command_service_ = command_service;
     emit commandServiceChanged();
@@ -40,6 +49,7 @@ public:
 
 signals:
   void mqttChanged();
+  void settingsChanged();
   void commandServiceChanged();
 
 public slots:
@@ -47,6 +57,7 @@ public slots:
   void onMqttErrorChanged();
 
 private:
+  QmlQSettings* settings_ = nullptr;
   QmlMqttClient* mqtt_ = nullptr;
   CommandService* command_service_ = nullptr;
 };
