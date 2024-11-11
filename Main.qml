@@ -142,7 +142,6 @@ Window {
       Layout.fillHeight: true
 
       radius: 4
-      // color: "#DDDECE"
       color: "#FAF4DA"
       border.color: "black"
       border.width: 1
@@ -153,17 +152,17 @@ Window {
 
         clip: true
 
-        ListModel {
-          id: list_model
-          ListElement { name: "TANK PRESSURE"; topic: "pressure/tank"; units: "psi" }
-          ListElement { name: "INJECTOR PRESSURE"; topic: "pressure/injector"; units: "psi" }
-          ListElement { name: "FEED PRESSURE"; topic: "pressure/feed"; units: "psi" }
-          ListElement { name: "INJECTOR TEMP"; topic: "temperature/injector"; units: "\u00b0C" }
-          ListElement { name: "VENT TEMP"; topic: "temperature/vent"; units: "\u00b0C" }
-          ListElement { name: "CC TEMP"; topic: "temperature/chamber"; units: "\u00b0C" }
-          ListElement { name: "LOAD CELL 1"; topic: "load_cell/1"; units: "g" }
-          ListElement { name: "LOAD CELL 2"; topic: "load_cell/2"; units: "g" }
-          ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave"; units: "" }
+       ObjectModel {
+          id:indicator_model
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "TANK\nPRESSURE"; topic: "pressure/tank"; units: "psi" }
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "INJECTOR\nPRESSURE"; topic: "pressure/injector"; units: "psi" }
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "FEED\nPRESSURE"; topic: "pressure/feed"; units: "psi" }
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "INJECTOR\nTEMPERATURE"; topic: "temperature/injector"; units: "\u00b0C" }
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "VENT\nTEMPERATURE"; topic: "temperature/vent"; units: "\u00b0C" }
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "CHAMBER\nTEMPERATURE"; topic: "temperature/chamber"; units: "\u00b0C" }
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "LOAD CELL 1"; topic: "load_cell/1"; units: "g" }
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "LOAD CELL 2"; topic: "load_cell/2"; units: "g" }
+          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "SINE WAVE"; topic: "telemetry/sinewave"; units: "" }
         }
 
         ListView {
@@ -172,46 +171,8 @@ Window {
           anchors.fill: parent
 
           spacing: 5
-          model: list_model
+          model: indicator_model
           clip: true
-          delegate: Rectangle {
-            height: childrenRect.height+10
-            width: ListView.view.width
-
-            border.color: "black"
-            border.width: 1
-
-            property string value: "NC"
-
-            Component.onCompleted: {
-              controller.mqtt.stateChanged.connect(() => {
-                if (controller.mqtt.state == 2) {
-                  controller.mqtt.subscribe(topic)
-                    .messageReceived.connect((message) => {
-                      let val = JSON.parse(message)["value"]?.concat(" ", units) ?? message;
-                      value = val;
-                  });
-                }
-              });
-            }
-
-            RowLayout {
-              height: 20
-              width: parent.width
-
-              Text {
-                Layout.fillWidth: true
-                Layout.margins: 5
-                text: name
-              }
-              Text {
-                Layout.fillWidth: true
-                Layout.margins: 5
-                horizontalAlignment: Text.AlignRight
-                text: value
-              }
-            }
-          }
         }
       }
     }
