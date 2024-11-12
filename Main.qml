@@ -174,66 +174,38 @@ Window {
         anchors.margins: 5
 
         RowLayout {
+          id: status_indicators_layout
           Layout.fillWidth: true
 
-          Rectangle {
+          StatusIndicator {
             Layout.fillWidth: true
             Layout.preferredHeight: 50
 
-            border.color: "black"
-            border.width: 1
-
-            Column {
-              anchors.fill: parent
-              anchors.centerIn: parent
-              anchors.margins: 5
-
-              Rectangle {
-                anchors.horizontalCenter: parent.horizontalCenter
-                implicitWidth: 20
-                implicitHeight: 20
-                radius: 10
-                color: {
-                  switch(root.controller.mqtt.state) {
-                    case 0: return "red"; break;
-                    case 1: return "yellow"; break;
-                    case 2: return "green"; break;
-                  }
-                }
-              }
-              Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "BROKER"
+            text: "BROKER"
+            color: {
+              switch (root.controller.mqtt.state) {
+                case 0:
+                  return "red";
+                  break;
+                case 1:
+                  return "yellow";
+                  break;
+                case 2:
+                  return "green";
+                  break;
               }
             }
           }
 
-
-          Rectangle {
+          StatusIndicator {
             Layout.fillWidth: true
             Layout.preferredHeight: 50
-
-            border.color: "black"
-            border.width: 1
-
-            Column {
-              anchors.fill: parent
-              anchors.centerIn: parent
-              anchors.margins: 5
-
-              Rectangle {
-                anchors.horizontalCenter: parent.horizontalCenter
-                implicitWidth: 20
-                implicitHeight: 20
-                color: "red"
-              }
-              Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "INFLUX"
-              }
-            }
+            text: "TSDB"
+            color: "red"
           }
+
         }
+
 
         ListView {
           id: list_view
