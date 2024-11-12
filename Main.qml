@@ -208,7 +208,7 @@ Window {
 
 
         ListView {
-          id: list_view
+          id: value_indicators_view
 
           Layout.fillWidth: true
           Layout.fillHeight: true
@@ -232,7 +232,7 @@ Window {
 
           delegate: Indicator {
             id: indicator_delegate
-            width: list_view.width
+            width: value_indicators_view.width
             implicitHeight: 60
 
             name: model.name
