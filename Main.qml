@@ -144,48 +144,42 @@ Window {
       border.color: "black"
       border.width: 1
 
-      Flickable {
+      ListView {
+        id: list_view
+
         anchors.fill: parent
         anchors.margins: 5
 
+        spacing: 5
         clip: true
 
-        ListView {
-          id: list_view
+        model: ListModel {
+          id: indicator_model
+          ListElement { name: "TANK\nPRESSURE"; topic: "pressure/tank" }
+          ListElement { name: "INJECTOR\nPRESSURE"; topic: "pressure/injector" }
+          ListElement { name: "FEED\nPRESSURE"; topic: "pressure/feed" }
+          ListElement { name: "INJECTOR\nTEMPERATURE"; topic: "temperature/injector" }
+          ListElement { name: "VENT\nTEMPERATURE"; topic: "temperature/vent" }
+          ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "temperature/chamber" }
+          ListElement { name: "LOAD CELL 1"; topic: "load_cell/1" }
+          ListElement { name: "LOAD CELL 2"; topic: "load_cell/2" }
+          ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave" }
+          ListElement { name: "NO TOPIC\nTEST"; topic: "" }
+        }
 
-          anchors.fill: parent
+        delegate: Indicator {
+          id: indicator_delegate
+          width: list_view.width
+          implicitHeight: 60
 
-          spacing: 5
-          clip: true
+          name: model.name
 
-          model: ListModel {
-            id: indicator_model
-            ListElement { name: "TANK\nPRESSURE"; topic: "pressure/tank" }
-            ListElement { name: "INJECTOR\nPRESSURE"; topic: "pressure/injector" }
-            ListElement { name: "FEED\nPRESSURE"; topic: "pressure/feed" }
-            ListElement { name: "INJECTOR\nTEMPERATURE"; topic: "temperature/injector" }
-            ListElement { name: "VENT\nTEMPERATURE"; topic: "temperature/vent" }
-            ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "temperature/chamber" }
-            ListElement { name: "LOAD CELL 1"; topic: "load_cell/1" }
-            ListElement { name: "LOAD CELL 2"; topic: "load_cell/2" }
-            ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave" }
-            ListElement { name: "NO TOPIC\nTEST"; topic: "" }
-          }
-
-          delegate: Indicator {
-            id: indicator_delegate
-            width: list_view.width
-            implicitHeight: 60
-
-            name: model.name
-
-            MqttSubscriber {
-              controller: root.controller
-              topic: model.topic
-              onMessageReceived: (message) => {
-                let payload = JSON.parse(message);
-                parent.value = payload["value"]?.concat(" ", payload["units"]) ?? message;
-              }
+          MqttSubscriber {
+            controller: root.controller
+            topic: model.topic
+            onMessageReceived: (message) => {
+              let payload = JSON.parse(message);
+              parent.value = payload["value"]?.concat(" ", payload["units"]) ?? message;
             }
           }
         }
