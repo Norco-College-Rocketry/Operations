@@ -64,12 +64,15 @@ Window {
       Layout.fillWidth: true
       Layout.fillHeight: true
 
+      border.color: "black"
+      border.width: 1
       radius: 5
       color: "#FAF4DA"
 
       Flickable {
         anchors.fill: parent
         anchors.margins: 5
+        clip: true
 
         ObjectModel {
           id: action_model
