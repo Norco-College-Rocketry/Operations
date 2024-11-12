@@ -6,24 +6,22 @@ Window {
 
   MqttCommandService {
     id: mqtt_command_service
-    client: controller.mqtt
-    topic: controller.settings.value("mqtt/command_topic", "commands")
+    client: root.controller.mqtt
+    topic: root.controller.settings.value("mqtt/command_topic", "commands")
   }
 
-  Controller {
-    id: controller
-
+  property Controller controller: Controller {
     mqtt: MqttClient {
-      hostname: controller.settings.value("mqtt/hostname", "localhost")
-      port: controller.settings.value("mqtt/port", 1883)
+      hostname: root.controller.settings.value("mqtt/hostname", "localhost")
+      port: root.controller.settings.value("mqtt/port", 1883)
     }
     commandService: mqtt_command_service.interface
     settings: QSettings { }
   }
 
   Component.onCompleted: {
-    controller.mqtt.connectToHost();
-    controller.initialize_settings(controller.settings);
+    root.controller.mqtt.connectToHost();
+    root.controller.initialize_settings(root.controller.settings);
   }
 
   width: 480
@@ -54,38 +52,38 @@ Window {
         ObjectModel {
           id: action_model
           CommandTile {
-            action: CommandAction { service: controller.commandService }
+            action: CommandAction { service: root.controller.commandService }
             name: "ABORT"
             command: "ABORT"
             text: "ABORT"
             width: actions_view.width
           }
           CommandPairTile {
-            action: CommandAction { service: controller.commandService }
+            action: CommandAction { service: root.controller.commandService }
             name: "FILL VALVE"
             command: "FILL_VALVE"
             width: actions_view.width
           }
           CommandPairTile {
-            action: CommandAction { service: controller.commandService }
+            action: CommandAction { service: root.controller.commandService }
             name: "OX VALVE"
             command: "OX_VALVE"
             width: actions_view.width
           }
           CommandPairTile {
-            action: CommandAction { service: controller.commandService }
+            action: CommandAction { service: root.controller.commandService }
             name: "FUEL VALVE"
             command: "FUEL_VALVE"
             width: actions_view.width
           }
           CommandPairTile {
-            action: CommandAction { service: controller.commandService }
+            action: CommandAction { service: root.controller.commandService }
             name: "PURGE VALVE"
             command: "PURGE_VALVE"
             width: actions_view.width
           }
           CommandTile {
-            action: CommandAction { service: controller.commandService }
+            action: CommandAction { service: root.controller.commandService }
             name: "CMD TEST"
             command: "TEST"
             text: "SEND TEST COMMAND"
@@ -152,27 +150,44 @@ Window {
 
         clip: true
 
-       ObjectModel {
-          id:indicator_model
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "TANK\nPRESSURE"; topic: "pressure/tank"; units: "psi" }
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "INJECTOR\nPRESSURE"; topic: "pressure/injector"; units: "psi" }
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "FEED\nPRESSURE"; topic: "pressure/feed"; units: "psi" }
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "INJECTOR\nTEMPERATURE"; topic: "temperature/injector"; units: "\u00b0C" }
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "VENT\nTEMPERATURE"; topic: "temperature/vent"; units: "\u00b0C" }
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "CHAMBER\nTEMPERATURE"; topic: "temperature/chamber"; units: "\u00b0C" }
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "LOAD CELL 1"; topic: "load_cell/1"; units: "g" }
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "LOAD CELL 2"; topic: "load_cell/2"; units: "g" }
-          Indicator { controller: controller; width: list_view.width; implicitHeight: 60; name: "SINE WAVE"; topic: "telemetry/sinewave"; units: "" }
-        }
-
         ListView {
           id: list_view
 
           anchors.fill: parent
 
           spacing: 5
-          model: indicator_model
           clip: true
+
+          model: ListModel {
+            id: indicator_model
+            ListElement { name: "TANK\nPRESSURE"; topic: "pressure/tank" }
+            ListElement { name: "INJECTOR\nPRESSURE"; topic: "pressure/injector" }
+            ListElement { name: "FEED\nPRESSURE"; topic: "pressure/feed" }
+            ListElement { name: "INJECTOR\nTEMPERATURE"; topic: "temperature/injector" }
+            ListElement { name: "VENT\nTEMPERATURE"; topic: "temperature/vent" }
+            ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "temperature/chamber" }
+            ListElement { name: "LOAD CELL 1"; topic: "load_cell/1" }
+            ListElement { name: "LOAD CELL 2"; topic: "load_cell/2" }
+            ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave" }
+            ListElement { name: "NO TOPIC\nTEST"; topic: "" }
+          }
+
+          delegate: Indicator {
+            id: indicator_delegate
+            width: list_view.width
+            implicitHeight: 60
+
+            name: model.name
+
+            MqttSubscriber {
+              controller: root.controller
+              topic: model.topic
+              onMessageReceived: (message) => {
+                let payload = JSON.parse(message);
+                parent.value = payload["value"]?.concat(" ", payload["units"]) ?? message;
+              }
+            }
+          }
         }
       }
     }
