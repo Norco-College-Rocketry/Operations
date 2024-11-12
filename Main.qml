@@ -19,8 +19,30 @@ Window {
     settings: QSettings { }
   }
 
+  Timer {
+    id: mqtt_timeout_timer
+    interval: 2500
+    running: false
+    repeat: true
+
+    onTriggered: () => {
+      root.controller.warn("Attempting to connect to MQTT broker.");
+      root.controller.mqtt.connectToHost();
+    }
+  }
+
   Component.onCompleted: {
     root.controller.mqtt.connectToHost();
+    root.controller.mqtt.onStateChanged.connect(() => {
+      switch (root.controller.mqtt.state) {
+        case 0:
+          mqtt_timeout_timer.running = true;
+          break;
+        case 2:
+          mqtt_timeout_timer.running = false;
+          break;
+      }
+    });
     root.controller.initialize_settings(root.controller.settings);
   }
 
@@ -144,42 +166,109 @@ Window {
       border.color: "black"
       border.width: 1
 
-      ListView {
-        id: list_view
-
+      ColumnLayout {
         anchors.fill: parent
         anchors.margins: 5
 
-        spacing: 5
-        clip: true
+        RowLayout {
+          Layout.fillWidth: true
 
-        model: ListModel {
-          id: indicator_model
-          ListElement { name: "TANK\nPRESSURE"; topic: "pressure/tank" }
-          ListElement { name: "INJECTOR\nPRESSURE"; topic: "pressure/injector" }
-          ListElement { name: "FEED\nPRESSURE"; topic: "pressure/feed" }
-          ListElement { name: "INJECTOR\nTEMPERATURE"; topic: "temperature/injector" }
-          ListElement { name: "VENT\nTEMPERATURE"; topic: "temperature/vent" }
-          ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "temperature/chamber" }
-          ListElement { name: "LOAD CELL 1"; topic: "load_cell/1" }
-          ListElement { name: "LOAD CELL 2"; topic: "load_cell/2" }
-          ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave" }
-          ListElement { name: "NO TOPIC\nTEST"; topic: "" }
+          Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 50
+
+            border.color: "black"
+            border.width: 1
+
+            Column {
+              anchors.fill: parent
+              anchors.centerIn: parent
+              anchors.margins: 5
+
+              Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                implicitWidth: 20
+                implicitHeight: 20
+                radius: 10
+                color: {
+                  switch(root.controller.mqtt.state) {
+                    case 0: return "red"; break;
+                    case 1: return "yellow"; break;
+                    case 2: return "green"; break;
+                  }
+                }
+              }
+              Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "BROKER"
+              }
+            }
+          }
+
+
+          Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 50
+
+            border.color: "black"
+            border.width: 1
+
+            Column {
+              anchors.fill: parent
+              anchors.centerIn: parent
+              anchors.margins: 5
+
+              Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                implicitWidth: 20
+                implicitHeight: 20
+                color: "red"
+              }
+              Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "INFLUX"
+              }
+            }
+          }
         }
 
-        delegate: Indicator {
-          id: indicator_delegate
-          width: list_view.width
-          implicitHeight: 60
+        ListView {
+          id: list_view
 
-          name: model.name
+          Layout.fillWidth: true
+          Layout.fillHeight: true
 
-          MqttSubscriber {
-            controller: root.controller
-            topic: model.topic
-            onMessageReceived: (message) => {
-              let payload = JSON.parse(message);
-              parent.value = payload["value"]?.concat(" ", payload["units"]) ?? message;
+          spacing: 5
+          clip: true
+
+          model: ListModel {
+            id: indicator_model
+            ListElement { name: "TANK\nPRESSURE"; topic: "pressure/tank" }
+            ListElement { name: "INJECTOR\nPRESSURE"; topic: "pressure/injector" }
+            ListElement { name: "FEED\nPRESSURE"; topic: "pressure/feed" }
+            ListElement { name: "INJECTOR\nTEMPERATURE"; topic: "temperature/injector" }
+            ListElement { name: "VENT\nTEMPERATURE"; topic: "temperature/vent" }
+            ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "temperature/chamber" }
+            ListElement { name: "LOAD CELL 1"; topic: "load_cell/1" }
+            ListElement { name: "LOAD CELL 2"; topic: "load_cell/2" }
+            ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave" }
+            ListElement { name: "NO TOPIC\nTEST"; topic: "" }
+          }
+
+          delegate: Indicator {
+            id: indicator_delegate
+            width: list_view.width
+            implicitHeight: 60
+
+            name: model.name
+
+            MqttSubscriber {
+              controller: root.controller
+              topic: model.topic
+              onMessageReceived: (message) => {
+                let payload = JSON.parse(message);
+                parent.value = payload["value"]?.concat(" ", payload["units"]) ?? message;
+              }
             }
           }
         }
