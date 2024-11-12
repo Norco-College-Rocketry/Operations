@@ -4,9 +4,10 @@
 
 using namespace NCR;
 
-void Controller::info(QString msg) {
-  spdlog::info(msg.toStdString());
-}
+void Controller::info(QString msg) { spdlog::info(msg.toStdString()); }
+void Controller::debug(QString msg) { spdlog::debug(msg.toStdString()); }
+void Controller::error(QString msg) { spdlog::error(msg.toStdString()); }
+void Controller::warn(QString msg) { spdlog::warn(msg.toStdString()); }
 
 void Controller::initialize_settings(QmlQSettings* settings) {
   settings->beginGroup("mqtt");
