@@ -17,7 +17,7 @@ id: root
     controller.mqtt.stateChanged.connect(() => {
       if (controller.mqtt.state === 2) {
         if (topic === '') {
-          controller.warn("Tried to subscribe to empty topic");
+          controller.warn("Tried to subscribe to an empty topic");
         } else {
           subscription = controller.mqtt.subscribe(topic)
 

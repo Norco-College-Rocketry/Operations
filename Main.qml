@@ -26,7 +26,7 @@ Window {
     repeat: true
 
     onTriggered: () => {
-      root.controller.warn("Attempting to connect to MQTT broker.");
+      root.controller.warn("Attempting to connect to MQTT broker (retry: "+(interval/1000).toString()+"s)");
       root.controller.mqtt.connectToHost();
     }
   }

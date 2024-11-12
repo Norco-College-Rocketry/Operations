@@ -21,12 +21,12 @@ void Controller::initialize_settings(QmlQSettings* settings) {
 void Controller::onMqttStateChanged() {
   std::string str;
   switch (mqtt_->state()) {
-    case QMqttClient::ClientState::Connected: { str = "Connected"; break; }
-    case QMqttClient::ClientState::Connecting: { str = "Connecting"; break; }
-    case QMqttClient::ClientState::Disconnected: { str = "Disconnected"; break; }
+    case QMqttClient::ClientState::Connected: { str = "connected"; break; }
+    case QMqttClient::ClientState::Connecting: { str = "connecting"; break; }
+    case QMqttClient::ClientState::Disconnected: { str = "disconnected"; break; }
   }
 
-  spdlog::info("MQTT state changed: {}",str);
+  spdlog::debug("MQTT {}",str);
 }
 
 void Controller::onMqttErrorChanged() {
