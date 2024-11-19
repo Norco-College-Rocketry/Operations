@@ -15,7 +15,7 @@ This program will run on Raspberry Pi 5 within the Ground Station Control briefc
 
 ### Planned Features
 - Settings page
-- Somposable timed linear sequences
+- Composable timed linear sequences
 - Sequence editor
 
 ## Building
