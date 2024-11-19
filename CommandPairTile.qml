@@ -24,11 +24,11 @@ ArmingTile {
     off_button.text: off_text
 
     on_button.onClicked: {
-      action.set_parameter("position", "open");
+      action.set_parameter("command", "open");
       root.action.execute();
     }
     off_button.onClicked: {
-      action.set_parameter("position", "closed");
+      action.set_parameter("command", "close");
       root.action.execute();
     }
   }

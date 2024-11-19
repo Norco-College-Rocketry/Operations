@@ -218,14 +218,14 @@ Window {
 
           model: ListModel {
             id: indicator_model
-            ListElement { name: "TANK\nPRESSURE"; topic: "pressure/tank" }
-            ListElement { name: "INJECTOR\nPRESSURE"; topic: "pressure/injector" }
-            ListElement { name: "FEED\nPRESSURE"; topic: "pressure/feed" }
-            ListElement { name: "INJECTOR\nTEMPERATURE"; topic: "temperature/injector" }
-            ListElement { name: "VENT\nTEMPERATURE"; topic: "temperature/vent" }
-            ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "temperature/chamber" }
-            ListElement { name: "LOAD CELL 1"; topic: "load_cell/1" }
-            ListElement { name: "LOAD CELL 2"; topic: "load_cell/2" }
+            ListElement { name: "TANK\nPRESSURE"; topic: "telemetry/tank/pressure" }
+            ListElement { name: "INJECTOR\nPRESSURE"; topic: "telemetry/injector/pressure" }
+            ListElement { name: "FEED\nPRESSURE"; topic: "telemetry/feed/pressure" }
+            ListElement { name: "INJECTOR\nTEMPERATURE"; topic: "telemetry/injector/temperature" }
+            ListElement { name: "VENT\nTEMPERATURE"; topic: "telemetry/vent/temperature" }
+            ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "telemetry/chamber/temperature" }
+            ListElement { name: "LOAD CELL 1"; topic: "telemetry/weight/1" }
+            ListElement { name: "LOAD CELL 2"; topic: "telemetry/weight/2" }
             ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave" }
             ListElement { name: "NO TOPIC\nTEST"; topic: "" }
           }
@@ -242,7 +242,7 @@ Window {
               topic: model.topic
               onMessageReceived: (message) => {
                 let payload = JSON.parse(message);
-                parent.value = payload["value"]?.concat(" ", payload["units"]) ?? message;
+                parent.value = payload.value.toFixed(3) + " "  + payload.unit ?? message;
               }
             }
           }
