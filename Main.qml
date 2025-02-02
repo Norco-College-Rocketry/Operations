@@ -195,16 +195,18 @@ Window {
 
           model: ListModel {
             id: indicator_model
-            ListElement { name: "TANK\nPRESSURE"; topic: "telemetry/tank/pressure" }
+            ListElement { name: "FUEL\nPRESSURE"; topic: "telemetry/tank/oxidizer/pressure" }
+            ListElement { name: "OX\nPRESSURE"; topic: "telemetry/tank/fuel/pressure" }
+            ListElement { name: "SUPPLY\nPRESSURE"; topic: "telemetry/supply/pressure" }
             ListElement { name: "INJECTOR\nPRESSURE"; topic: "telemetry/injector/pressure" }
             ListElement { name: "FEED\nPRESSURE"; topic: "telemetry/feed/pressure" }
-            ListElement { name: "INJECTOR\nTEMPERATURE"; topic: "telemetry/injector/temperature" }
-            ListElement { name: "VENT\nTEMPERATURE"; topic: "telemetry/vent/temperature" }
+            ListElement { name: "CHAMBER\nPRESSURE"; topic: "telemetry/chamber/pressure" }
+            ListElement { name: "LOAD CELL 1"; topic: "telemetry/tank/weight/1" }
+            ListElement { name: "LOAD CELL 2"; topic: "telemetry/tank/weight/2" }
+            ListElement { name: "LOAD CELL 3"; topic: "telemetry/tank/weight/3" }
+            ListElement { name: "LOAD CELL 4"; topic: "telemetry/tank/weight/4" }
+            ListElement { name: "VENT\nTEMPERATURE"; topic: "telemetry/tank/vent/temperature" }
             ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "telemetry/chamber/temperature" }
-            ListElement { name: "LOAD CELL 1"; topic: "telemetry/weight/1" }
-            ListElement { name: "LOAD CELL 2"; topic: "telemetry/weight/2" }
-            ListElement { name: "SINE WAVE"; topic: "telemetry/sinewave" }
-            ListElement { name: "NO TOPIC\nTEST"; topic: "" }
           }
 
           delegate: Indicator {
