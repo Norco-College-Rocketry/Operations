@@ -8,23 +8,20 @@ using namespace NCR;
 
 void MqttCommandService::send_command(const Command& command) {
   std::string msg;
+  QJsonObject json, parameters;
 
   QString topic = topic_;
-  if (subtopics_->contains(QString::fromStdString(command.command()))) {
-    topic += (*subtopics_)[QString::fromStdString(command.command())];
-
-    QJsonObject json;
+  json["command"] = QString::fromStdString(command.command());
+  if (!command.parameters().empty()) {
     for (const auto& [name, value] : command.parameters()) {
-      json[QString::fromStdString(name)] = QString::fromStdString(value);
+      parameters.insert(QString::fromStdString(name), QString::fromStdString(value));
     }
-    msg = QJsonDocument(json).toJson(QJsonDocument::Compact);
-  } else {
-    msg = command.command();
+    json["parameters"] = parameters;
   }
-
+  msg = QJsonDocument(json).toJson(QJsonDocument::Compact);
 
   if (client_->publish(topic, QByteArray::fromStdString(msg)) == -1) {
-    spdlog::error("Error publishing MQTT message: {}", msg);
+    spdlog::error("Error publishing MQTT command: {}", msg);
   }
 }
 

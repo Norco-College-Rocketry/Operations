@@ -9,6 +9,8 @@ ArmingTile {
 
   property alias text: button.text
 
+  name: command
+
   Component.onCompleted: {
     action.set_command(root.command);
   }

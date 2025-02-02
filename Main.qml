@@ -78,72 +78,49 @@ Window {
           id: action_model
           CommandTile {
             action: CommandAction { service: root.controller.commandService }
-            name: "ABORT"
             command: "ABORT"
-            text: "ABORT"
-            width: actions_view.width
-          }
-          CommandPairTile {
-            action: CommandAction { service: root.controller.commandService }
-            name: "FILL VALVE"
-            command: "FILL_VALVE"
-            width: actions_view.width
-          }
-          CommandPairTile {
-            action: CommandAction { service: root.controller.commandService }
-            name: "OX VALVE"
-            command: "OX_VALVE"
-            width: actions_view.width
-          }
-          CommandPairTile {
-            action: CommandAction { service: root.controller.commandService }
-            name: "FUEL VALVE"
-            command: "FUEL_VALVE"
-            width: actions_view.width
-          }
-          CommandPairTile {
-            action: CommandAction { service: root.controller.commandService }
-            name: "PURGE VALVE"
-            command: "PURGE_VALVE"
             width: actions_view.width
           }
           CommandTile {
             action: CommandAction { service: root.controller.commandService }
-            name: "CMD TEST"
-            command: "TEST"
-            text: "SEND TEST COMMAND"
+            command: "IGNITE"
             width: actions_view.width
           }
-          // Mock timed sequence
-          MockTile {
-            id: tile
+          CommandPairTile {
+            action: CommandAction { service: root.controller.commandService }
+            Component.onCompleted: action.set_parameter("valve", "FV01");
+            implicitHeight: 110
+            name: "MAIN OX\nVALVE"
+            command: "VALVE"
             width: actions_view.width
-            implicitHeight: 125
-
-            name: "ACTION 6"
-
-            RowLayout {
-              id: timer
-
-              property int countdown: 5000
-
-              Layout.fillWidth: true
-
-              Text {
-                id: label
-
-                Layout.fillWidth: true
-                text: (timer.countdown/1000).toFixed(3) + " s"
-                horizontalAlignment: Text.AlignLeft
-
-              }
-
-              NumberAnimation on countdown {
-                to: 0
-                duration: timer.countdown
-                running: tile.open
-              }
-            }
+          }
+          CommandPairTile {
+            action: CommandAction { service: root.controller.commandService }
+            Component.onCompleted: action.set_parameter("valve", "FV02");
+            implicitHeight: 110
+            name: "MAIN FUEL\nVALVE"
+            command: "VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            action: CommandAction { service: root.controller.commandService }
+            Component.onCompleted: action.set_parameter("valve", "FV03");
+            name: "VENT VALVE"
+            command: "VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            action: CommandAction { service: root.controller.commandService }
+            Component.onCompleted: action.set_parameter("valve", "FV04");
+            name: "FILL VALVE"
+            command: "VALVE"
+            width: actions_view.width
+          }
+          CommandTile {
+            action: CommandAction { service: root.controller.commandService }
+            name: "SELF TEST"
+            command: "SELFTEST"
+            width: actions_view.width
           }
         }
 
