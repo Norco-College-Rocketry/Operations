@@ -4,6 +4,8 @@ import QtQuick.Layouts
 Window {
   id: root
 
+  flags: Qt.Window | Qt.FramelessWindowHint
+
   MqttCommandService {
     id: mqtt_command_service
     client: root.controller.mqtt
@@ -178,7 +180,7 @@ Window {
             Layout.fillWidth: true
             Layout.preferredHeight: 50
             text: "TSDB"
-            color: "red"
+            color: "gray"
           }
 
         }
