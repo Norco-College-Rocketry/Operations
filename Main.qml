@@ -88,7 +88,7 @@ Window {
           }
           CommandPairTile {
             action: CommandAction { service: root.controller.commandService }
-            Component.onCompleted: action.set_parameter("valve", "FV01");
+            Component.onCompleted: action.set_parameter("valve", "FV1-E");
             implicitHeight: 110
             name: "MAIN OX\nVALVE"
             command: "VALVE"
@@ -96,7 +96,7 @@ Window {
           }
           CommandPairTile {
             action: CommandAction { service: root.controller.commandService }
-            Component.onCompleted: action.set_parameter("valve", "FV02");
+            Component.onCompleted: action.set_parameter("valve", "FV2-E");
             implicitHeight: 110
             name: "MAIN FUEL\nVALVE"
             command: "VALVE"
@@ -104,14 +104,14 @@ Window {
           }
           CommandPairTile {
             action: CommandAction { service: root.controller.commandService }
-            Component.onCompleted: action.set_parameter("valve", "FV03");
+            Component.onCompleted: action.set_parameter("valve", "FV3-E");
             name: "VENT VALVE"
             command: "VALVE"
             width: actions_view.width
           }
           CommandPairTile {
             action: CommandAction { service: root.controller.commandService }
-            Component.onCompleted: action.set_parameter("valve", "FV04");
+            Component.onCompleted: action.set_parameter("valve", "FV-S");
             name: "FILL VALVE"
             command: "VALVE"
             width: actions_view.width
