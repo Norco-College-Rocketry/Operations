@@ -21,6 +21,7 @@ This program will run on Raspberry Pi 5 within the Ground Station Control briefc
 ## Building
 
 ### Build Dependencies
+- conan
 - Qt 6
 - Qt Quick
 - Qt MQTT
