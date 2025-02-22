@@ -4,10 +4,10 @@ project(GSC_Operations VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Mqtt)
+find_package(Qt6 REQUIRED COMPONENTS Quick Mqtt)
 find_package(spdlog REQUIRED)
 
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup()
 
 option(ENABLE_TESTS "Build with Tests" ON)
 if (ENABLE_TESTS)
