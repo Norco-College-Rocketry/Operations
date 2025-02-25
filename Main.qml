@@ -6,6 +6,18 @@ Window {
 
   flags: Qt.Window | Qt.FramelessWindowHint
 
+  Item {
+    id: keys_handler
+    property bool is_fullscreen: true
+    focus: true
+    Keys.onPressed: (event) => {
+      if (event.key === Qt.Key_F11) {
+        root.flags = keys_handler.is_fullscreen ? Qt.Window : Qt.Window | Qt.FramelessWindowHint;
+        keys_handler.is_fullscreen = !keys_handler.is_fullscreen;
+      }
+    }
+  }
+
   MqttCommandService {
     id: mqtt_command_service
     client: root.controller.mqtt
@@ -78,51 +90,78 @@ Window {
 
         ObjectModel {
           id: action_model
-          CommandTile {
-            action: CommandAction { service: root.controller.commandService }
-            command: "ABORT"
-            width: actions_view.width
-          }
-          CommandTile {
-            action: CommandAction { service: root.controller.commandService }
-            command: "IGNITE"
-            width: actions_view.width
-          }
-          CommandPairTile {
-            action: CommandAction { service: root.controller.commandService }
-            Component.onCompleted: action.set_parameter("valve", "FV1-E");
-            implicitHeight: 110
-            name: "MAIN OX\nVALVE"
-            command: "VALVE"
-            width: actions_view.width
-          }
-          CommandPairTile {
-            action: CommandAction { service: root.controller.commandService }
-            Component.onCompleted: action.set_parameter("valve", "FV2-E");
-            implicitHeight: 110
-            name: "MAIN FUEL\nVALVE"
-            command: "VALVE"
-            width: actions_view.width
-          }
-          CommandPairTile {
-            action: CommandAction { service: root.controller.commandService }
-            Component.onCompleted: action.set_parameter("valve", "FV3-E");
-            name: "VENT VALVE"
-            command: "VALVE"
-            width: actions_view.width
-          }
-          CommandPairTile {
-            action: CommandAction { service: root.controller.commandService }
-            Component.onCompleted: action.set_parameter("valve", "FV-S");
-            name: "FILL VALVE"
-            command: "VALVE"
-            width: actions_view.width
-          }
-          CommandTile {
-            action: CommandAction { service: root.controller.commandService }
-            name: "SELF TEST"
-            command: "SELFTEST"
-            width: actions_view.width
+          // CommandTile {
+          //   action: CommandAction { service: root.controller.commandService }
+          //   command: "ABORT"
+          //   width: actions_view.width
+          // }
+          // CommandTile {
+          //   action: CommandAction { service: root.controller.commandService }
+          //   command: "IGNITE"
+          //   width: actions_view.width
+          // }
+          // CommandPairTile {
+          //   action: CommandAction { service: root.controller.commandService }
+          //   Component.onCompleted: action.set_parameter("valve", "FV1-E");
+          //   implicitHeight: 110
+          //   name: "MAIN OX\nVALVE"
+          //   command: "VALVE"
+          //   width: actions_view.width
+          // }
+          // CommandPairTile {
+          //   action: CommandAction { service: root.controller.commandService }
+          //   Component.onCompleted: action.set_parameter("valve", "FV2-E");
+          //   implicitHeight: 110
+          //   name: "MAIN FUEL\nVALVE"
+          //   command: "VALVE"
+          //   width: actions_view.width
+          // }
+          // CommandPairTile {
+          //   action: CommandAction { service: root.controller.commandService }
+          //   Component.onCompleted: action.set_parameter("valve", "FV3-E");
+          //   name: "VENT VALVE"
+          //   command: "VALVE"
+          //   width: actions_view.width
+          // }
+          // CommandPairTile {
+          //   action: CommandAction {
+          //     service: root.controller.commandService;
+          //     command: "VALVE";
+          //     Component.onCompleted: set_parameter("valve", "FV-S");
+          //   }
+          //   name: "FILL VALVE"
+          //   width: actions_view.width
+          // }
+          Tile {
+            implicitHeight: 150
+            implicitWidth: actions_view.width
+
+            Column {
+              anchors.fill: parent
+              anchors.margins: 5
+              spacing: 5
+
+              ArmingControls {
+                id: arming_controls
+                implicitHeight: childrenRect.height
+                implicitWidth: parent.width
+                name: "SELF TEST"
+              }
+
+              CommandTile {
+                action: CommandAction { service: root.controller.commandService; command: "SELFTEST" }
+                armed: arming_controls.armed
+                implicitHeight: childrenRect.height
+                implicitWidth: parent.width
+              }
+
+              CommandTile {
+                action: CommandAction { service: root.controller.commandService; command: "SELFTEST" }
+                armed: arming_controls.armed
+                implicitHeight: childrenRect.height
+                implicitWidth: parent.width
+              }
+            }
           }
         }
 
