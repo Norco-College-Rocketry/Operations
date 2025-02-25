@@ -9,7 +9,6 @@
 namespace NCR {
 class Action {
   QML_INTERFACE
-
 public:
   Action() = default;
 
@@ -24,11 +23,13 @@ namespace NCR {
 class CommandAction : public QObject, public Action {
   Q_OBJECT
   Q_PROPERTY(CommandService* service READ service WRITE service NOTIFY serviceChanged)
+  Q_PROPERTY(QString command READ get_command WRITE set_command NOTIFY commandChanged)
   QML_ELEMENT
   QML_IMPLEMENTS_INTERFACES(NCR::Action)
 public:
   CommandAction() =default;
   CommandAction(const Command& command, CommandService* service) : command_(command), service_(service) { }
+  CommandAction(const QString& command, CommandService* service) : service_(service) { set_command(command); }
 
   Q_INVOKABLE void execute() override {
     service_->send_command(command_);
@@ -42,6 +43,7 @@ public:
 
   CommandService* service() { return service_; }
   Command& command() { return command_; }
+  Q_INVOKABLE QString get_command() { return QString::fromStdString(command_.command()); }
 
   void service(CommandService* service) {
     service_ = service;

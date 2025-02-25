@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-ColumnLayout {
+Item {
   id: root
 
   property alias armed: arm_switch.checked
@@ -11,7 +11,6 @@ ColumnLayout {
   RowLayout {
     id: arming_controls_container
 
-    Layout.fillWidth: true
     uniformCellSizes: true
 
     Text {

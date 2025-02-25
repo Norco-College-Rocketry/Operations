@@ -4,7 +4,7 @@ import QtQuick.Layouts
 Tile {
   id: root
 
-  default property alias children: arming_controls.children
+  property alias armed: arming_controls.armed
   property alias name: arming_controls.name
 
   radius: 4

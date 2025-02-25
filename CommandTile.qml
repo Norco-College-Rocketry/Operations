@@ -1,27 +1,17 @@
 import QtQuick
 import QtQuick.Controls
 
-ArmingTile {
+Item {
   id: root
 
   required property CommandAction action
-  required property string command
-
+  property alias armed: button.enabled
   property alias text: button.text
-
-  name: command
-
-  Component.onCompleted: {
-    action.set_command(root.command);
-  }
-
-  implicitHeight: 80
 
   Button {
     id: button
     implicitWidth: parent.width
     text: "SEND COMMAND"
-    enabled: parent.armed
     onClicked: {
       root.action.execute();
     }

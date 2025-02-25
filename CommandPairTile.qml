@@ -4,14 +4,9 @@ ArmingTile {
   id: root
 
   required property CommandAction action
-  required property string command
   property string parameter_key: "position"
   property string on_value: "open"
   property string off_value: "close"
-
-  Component.onCompleted: {
-    action.set_command(root.command);
-  }
 
   implicitHeight: 100
 
