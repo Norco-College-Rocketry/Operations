@@ -132,9 +132,18 @@ Window {
           //   name: "FILL VALVE"
           //   width: actions_view.width
           // }
+          CommandTile {
+            command: CommandAction {
+              service: root.controller.commandService
+              command: "SELFTEST";
+              Component.onCompleted: set_parameter("valve", "FV-S");
+            }
+            name: "SELF TEST"
+            width: actions_view.width
+          }
           Tile {
             id: tile_root
-            implicitHeight: 115
+            implicitHeight: 135
             implicitWidth: actions_view.width
 
             property CommandAction action: CommandAction {
@@ -156,11 +165,16 @@ Window {
 
               Timer { id: tile_timer; interval: 3000; onTriggered: { tile_root.action.execute(); }}
 
-              CommandTile {
+              CommandControls {
                 armed: arming_controls.armed
                 implicitHeight: childrenRect.height
                 implicitWidth: parent.width
                 onClicked: () => { tile_timer.start(); }
+              }
+
+              OnOffControls {
+                implicitWidth: parent.width
+                armed: arming_controls.armed
               }
             }
           }

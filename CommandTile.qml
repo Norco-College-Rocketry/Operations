@@ -1,17 +1,32 @@
 import QtQuick
-import QtQuick.Controls
 
-Item {
+/** Tile containing a button that sends a single verb, parameterless command
+ **/
+Tile {
   id: root
 
-  required property var onClicked
-  property alias armed: button.enabled
-  property alias text: button.text
+  required property CommandAction command
+  property string name: command.command
 
-  Button {
-    id: button
-    implicitWidth: parent.width
-    text: "SEND COMMAND"
-    onClicked: { root.onClicked(); }
+  implicitHeight: 80
+
+  Column {
+    anchors.fill: parent
+    anchors.margins: 5
+    spacing: 5
+
+    ArmingControls {
+      id: arming_controls
+      implicitHeight: childrenRect.height
+      implicitWidth: parent.width
+      name: root.name
+    }
+
+    CommandControls {
+      armed: arming_controls.armed
+      implicitHeight: childrenRect.height
+      implicitWidth: parent.width
+      onClicked: () => { tile_timer.start(); }
+    }
   }
 }
