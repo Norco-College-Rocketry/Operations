@@ -98,14 +98,15 @@ Window {
             command: CommandAction { service: root.controller.commandService; command: "IGNITE" }
             width: actions_view.width
           }
-          // CommandPairTile {
-          //   command: CommandAction { service: root.controller.commandService }
-          //   Component.onCompleted: action.set_parameter("valve", "FV1-E");
-          //   implicitHeight: 110
-          //   name: "MAIN OX\nVALVE"
-          //   command: "VALVE"
-          //   width: actions_view.width
-          // }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService; command: "VALVE"
+              Component.onCompleted: set_parameter("valve", "FV1-E");
+            }
+            name: "MAIN OX\nVALVE"
+            implicitHeight: 110
+            width: actions_view.width
+          }
           // CommandPairTile {
           //   command: CommandAction { service: root.controller.commandService }
           //   Component.onCompleted: action.set_parameter("valve", "FV2-E");
