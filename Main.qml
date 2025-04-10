@@ -133,8 +133,14 @@ Window {
           //   width: actions_view.width
           // }
           Tile {
+            id: tile_root
             implicitHeight: 115
             implicitWidth: actions_view.width
+
+            property CommandAction action: CommandAction {
+              service: root.controller.commandService
+              command: "SELFTEST"
+            }
 
             Column {
               anchors.fill: parent
@@ -148,18 +154,13 @@ Window {
                 name: "SELF TEST"
               }
 
-              CommandTile {
-                action: CommandAction { service: root.controller.commandService; command: "SELFTEST" }
-                armed: arming_controls.armed
-                implicitHeight: childrenRect.height
-                implicitWidth: parent.width
-              }
+              Timer { id: tile_timer; interval: 3000; onTriggered: { tile_root.action.execute(); }}
 
               CommandTile {
-                action: CommandAction { service: root.controller.commandService; command: "SELFTEST" }
                 armed: arming_controls.armed
                 implicitHeight: childrenRect.height
                 implicitWidth: parent.width
+                onClicked: () => { tile_timer.start(); }
               }
             }
           }

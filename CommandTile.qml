@@ -4,7 +4,7 @@ import QtQuick.Controls
 Item {
   id: root
 
-  required property CommandAction action
+  required property var onClicked
   property alias armed: button.enabled
   property alias text: button.text
 
@@ -12,8 +12,6 @@ Item {
     id: button
     implicitWidth: parent.width
     text: "SEND COMMAND"
-    onClicked: {
-      root.action.execute();
-    }
+    onClicked: { root.onClicked(); }
   }
 }
