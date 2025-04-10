@@ -107,30 +107,35 @@ Window {
             implicitHeight: 110
             width: actions_view.width
           }
-          // CommandPairTile {
-          //   command: CommandAction { service: root.controller.commandService }
-          //   Component.onCompleted: action.set_parameter("valve", "FV2-E");
-          //   implicitHeight: 110
-          //   name: "MAIN FUEL\nVALVE"
-          //   command: "VALVE"
-          //   width: actions_view.width
-          // }
-          // CommandPairTile {
-          //   command: CommandAction { service: root.controller.commandService }
-          //   Component.onCompleted: action.set_parameter("valve", "FV3-E");
-          //   name: "VENT VALVE"
-          //   command: "VALVE"
-          //   width: actions_view.width
-          // }
-          // CommandPairTile {
-          //   command: CommandAction {
-          //     service: root.controller.commandService;
-          //     command: "VALVE";
-          //     Component.onCompleted: set_parameter("valve", "FV-S");
-          //   }
-          //   name: "FILL VALVE"
-          //   width: actions_view.width
-          // }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService
+              command: "VALVE"
+              Component.onCompleted: set_parameter("valve", "FV2-E");
+            }
+            name: "MAIN FUEL\nVALVE"
+            implicitHeight: 110
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService
+              command: "VALVE"
+              Component.onCompleted: set_parameter("valve", "FV3-E");
+            }
+            name: "VENT VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService;
+              command: "VALVE";
+              Component.onCompleted: set_parameter("valve", "FV-S");
+            }
+            name: "FILL VALVE"
+            width: actions_view.width
+          }
+
           Tile {
             id: tile_root
             implicitHeight: 135
