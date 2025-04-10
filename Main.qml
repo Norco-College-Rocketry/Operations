@@ -90,18 +90,16 @@ Window {
 
         ObjectModel {
           id: action_model
-          // CommandTile {
-          //   action: CommandAction { service: root.controller.commandService }
-          //   command: "ABORT"
-          //   width: actions_view.width
-          // }
-          // CommandTile {
-          //   action: CommandAction { service: root.controller.commandService }
-          //   command: "IGNITE"
-          //   width: actions_view.width
-          // }
+          CommandTile {
+            command: CommandAction { service: root.controller.commandService; command: "ABORT" }
+            width: actions_view.width
+          }
+          CommandTile {
+            command: CommandAction { service: root.controller.commandService; command: "IGNITE" }
+            width: actions_view.width
+          }
           // CommandPairTile {
-          //   action: CommandAction { service: root.controller.commandService }
+          //   command: CommandAction { service: root.controller.commandService }
           //   Component.onCompleted: action.set_parameter("valve", "FV1-E");
           //   implicitHeight: 110
           //   name: "MAIN OX\nVALVE"
@@ -109,7 +107,7 @@ Window {
           //   width: actions_view.width
           // }
           // CommandPairTile {
-          //   action: CommandAction { service: root.controller.commandService }
+          //   command: CommandAction { service: root.controller.commandService }
           //   Component.onCompleted: action.set_parameter("valve", "FV2-E");
           //   implicitHeight: 110
           //   name: "MAIN FUEL\nVALVE"
@@ -117,14 +115,14 @@ Window {
           //   width: actions_view.width
           // }
           // CommandPairTile {
-          //   action: CommandAction { service: root.controller.commandService }
+          //   command: CommandAction { service: root.controller.commandService }
           //   Component.onCompleted: action.set_parameter("valve", "FV3-E");
           //   name: "VENT VALVE"
           //   command: "VALVE"
           //   width: actions_view.width
           // }
           // CommandPairTile {
-          //   action: CommandAction {
+          //   command: CommandAction {
           //     service: root.controller.commandService;
           //     command: "VALVE";
           //     Component.onCompleted: set_parameter("valve", "FV-S");
@@ -132,15 +130,6 @@ Window {
           //   name: "FILL VALVE"
           //   width: actions_view.width
           // }
-          CommandTile {
-            command: CommandAction {
-              service: root.controller.commandService
-              command: "SELFTEST";
-              Component.onCompleted: set_parameter("valve", "FV-S");
-            }
-            name: "SELF TEST"
-            width: actions_view.width
-          }
           Tile {
             id: tile_root
             implicitHeight: 135

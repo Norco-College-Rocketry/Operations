@@ -26,7 +26,7 @@ Tile {
       armed: arming_controls.armed
       implicitHeight: childrenRect.height
       implicitWidth: parent.width
-      onClicked: () => { tile_timer.start(); }
+      onClicked: () => { command.execute(); }
     }
   }
 }
