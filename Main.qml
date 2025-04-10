@@ -133,7 +133,7 @@ Window {
           //   width: actions_view.width
           // }
           Tile {
-            implicitHeight: 150
+            implicitHeight: 115
             implicitWidth: actions_view.width
 
             Column {
