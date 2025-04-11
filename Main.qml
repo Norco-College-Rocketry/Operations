@@ -101,7 +101,7 @@ Window {
           CommandPairTile {
             command: CommandAction {
               service: root.controller.commandService; command: "VALVE"
-              Component.onCompleted: set_parameter("valve", "FV1-E");
+              Component.onCompleted: set_parameter("valve", "SV-N201");
             }
             name: "MAIN OX\nVALVE"
             implicitHeight: 110
@@ -111,7 +111,7 @@ Window {
             command: CommandAction {
               service: root.controller.commandService
               command: "VALVE"
-              Component.onCompleted: set_parameter("valve", "FV2-E");
+              Component.onCompleted: set_parameter("valve", "SV-E203");
             }
             name: "MAIN FUEL\nVALVE"
             implicitHeight: 110
@@ -121,7 +121,7 @@ Window {
             command: CommandAction {
               service: root.controller.commandService
               command: "VALVE"
-              Component.onCompleted: set_parameter("valve", "FV3-E");
+              Component.onCompleted: set_parameter("valve", "SV-N202");
             }
             name: "VENT VALVE"
             width: actions_view.width
@@ -130,9 +130,29 @@ Window {
             command: CommandAction {
               service: root.controller.commandService;
               command: "VALVE";
-              Component.onCompleted: set_parameter("valve", "FV-S");
+              Component.onCompleted: set_parameter("valve", "SV-N101");
             }
             name: "FILL VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService;
+              command: "VALVE";
+              Component.onCompleted: set_parameter("valve", "SV-N204");
+            }
+            name: "SOLENOID\nDUMP VALVE"
+            implicitHeight: 110
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService;
+              command: "VALVE";
+              Component.onCompleted: set_parameter("valve", "SV-N102");
+            }
+            name: "REMOTE DUMP\nVALVE"
+            implicitHeight: 110
             width: actions_view.width
           }
 
@@ -252,12 +272,14 @@ Window {
             ListElement { name: "INJECTOR\nPRESSURE"; topic: "telemetry/injector/pressure" }
             ListElement { name: "FEED\nPRESSURE"; topic: "telemetry/feed/pressure" }
             ListElement { name: "CHAMBER\nPRESSURE"; topic: "telemetry/chamber/pressure" }
+
+            ListElement { name: "VENT\nTEMPERATURE"; topic: "telemetry/tank/vent/temperature" }
+            ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "telemetry/chamber/temperature" }
+            ListElement { name: "THRUST"; topic: "telemetry/thrust" }
             ListElement { name: "LOAD CELL 1"; topic: "telemetry/tank/weight/1" }
             ListElement { name: "LOAD CELL 2"; topic: "telemetry/tank/weight/2" }
             ListElement { name: "LOAD CELL 3"; topic: "telemetry/tank/weight/3" }
             ListElement { name: "LOAD CELL 4"; topic: "telemetry/tank/weight/4" }
-            ListElement { name: "VENT\nTEMPERATURE"; topic: "telemetry/tank/vent/temperature" }
-            ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "telemetry/chamber/temperature" }
           }
 
           delegate: Indicator {
