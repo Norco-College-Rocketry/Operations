@@ -22,6 +22,7 @@ public:
 
 Q_SIGNALS:
   void topicChanged(QString);
+  void topicChanged();
   void messageReceived(const QString &msg);
 
 public slots:

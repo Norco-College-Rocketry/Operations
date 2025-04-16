@@ -95,6 +95,10 @@ Window {
             width: actions_view.width
           }
           CommandTile {
+            command: CommandAction { service: root.controller.commandService; command: "LAUNCH" }
+            width: actions_view.width
+          }
+          CommandTile {
             command: CommandAction { service: root.controller.commandService; command: "IGNITE" }
             width: actions_view.width
           }
@@ -266,13 +270,10 @@ Window {
 
           model: ListModel {
             id: indicator_model
-            ListElement { name: "FUEL\nPRESSURE"; topic: "telemetry/tank/oxidizer/pressure" }
-            ListElement { name: "OX\nPRESSURE"; topic: "telemetry/tank/fuel/pressure" }
+            ListElement { name: "TANK\nPRESSURE"; topic: "telemetry/tank/pressure" }
             ListElement { name: "SUPPLY\nPRESSURE"; topic: "telemetry/supply/pressure" }
             ListElement { name: "INJECTOR\nPRESSURE"; topic: "telemetry/injector/pressure" }
-            ListElement { name: "FEED\nPRESSURE"; topic: "telemetry/feed/pressure" }
-            ListElement { name: "CHAMBER\nPRESSURE"; topic: "telemetry/chamber/pressure" }
-
+            ListElement { name: "SUPPLY\nPRESSURE"; topic: "telemetry/feed/pressure" }
             ListElement { name: "VENT\nTEMPERATURE"; topic: "telemetry/tank/vent/temperature" }
             ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "telemetry/chamber/temperature" }
             ListElement { name: "THRUST"; topic: "telemetry/thrust" }
