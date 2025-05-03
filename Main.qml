@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 
 Window {
   id: root
@@ -98,6 +99,79 @@ Window {
             command: CommandAction { service: root.controller.commandService; command: "LAUNCH" }
             width: actions_view.width
           }
+
+          Tile {
+            id: tile_root
+            implicitHeight: 135
+            implicitWidth: actions_view.width
+
+            property CommandAction action: CommandAction {
+              service: root.controller.commandService;
+              command: "VALVE";
+              Component.onCompleted: set_parameter("valve", "SV-N202");
+            }
+
+            property double default_interval: 2
+            property double countdown: 0
+
+            Column {
+              anchors.fill: parent
+              anchors.margins: 5
+              spacing: 5
+
+              ArmingControls {
+                id: arming_controls
+                implicitHeight: childrenRect.height
+                implicitWidth: parent.width
+                name: "VENT\nSEQUENCE"
+              }
+
+              Row {
+                width: parent.width
+
+                TextField {
+                  id: time_input
+                  text: tile_root.default_interval
+                  validator: DoubleValidator { bottom: 0 }
+                }
+
+                Text {
+                  text: tile_root.countdown.toFixed(3) + " sec"
+                }
+              }
+
+              CommandControls {
+                text: "START"
+                armed: arming_controls.armed
+                implicitHeight: childrenRect.height
+                implicitWidth: parent.width
+                onClicked: () => {
+                  tile_root.countdown = time_input.text
+                  tile_root.action.set_parameter("position", "open");
+                  tile_root.action.execute();
+                  tile_timer.start();
+                  timer_animation.start();
+                }
+              }
+            }
+
+              Timer {
+                id: tile_timer
+
+                interval: time_input.text * 1000
+                onTriggered: {
+                  tile_root.action.set_parameter("position", "close");
+                  tile_root.action.execute();
+                }
+              }
+
+              NumberAnimation on countdown {
+                id: timer_animation
+                to: 0
+                duration: tile_root.countdown*1000
+              }
+          }
+
           CommandTile {
             command: CommandAction { service: root.controller.commandService; command: "IGNITE" }
             width: actions_view.width
@@ -158,44 +232,6 @@ Window {
             name: "REMOTE DUMP\nVALVE"
             implicitHeight: 110
             width: actions_view.width
-          }
-
-          Tile {
-            id: tile_root
-            implicitHeight: 135
-            implicitWidth: actions_view.width
-
-            property CommandAction action: CommandAction {
-              service: root.controller.commandService
-              command: "SELFTEST"
-            }
-
-            Column {
-              anchors.fill: parent
-              anchors.margins: 5
-              spacing: 5
-
-              ArmingControls {
-                id: arming_controls
-                implicitHeight: childrenRect.height
-                implicitWidth: parent.width
-                name: "SELF TEST"
-              }
-
-              Timer { id: tile_timer; interval: 3000; onTriggered: { tile_root.action.execute(); }}
-
-              CommandControls {
-                armed: arming_controls.armed
-                implicitHeight: childrenRect.height
-                implicitWidth: parent.width
-                onClicked: () => { tile_timer.start(); }
-              }
-
-              OnOffControls {
-                implicitWidth: parent.width
-                armed: arming_controls.armed
-              }
-            }
           }
         }
 
