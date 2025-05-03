@@ -272,10 +272,11 @@ Window {
             id: indicator_model
             ListElement { name: "TANK\nPRESSURE"; topic: "telemetry/tank/pressure" }
             ListElement { name: "SUPPLY\nPRESSURE"; topic: "telemetry/supply/pressure" }
-            ListElement { name: "INJECTOR\nPRESSURE"; topic: "telemetry/injector/pressure" }
-            ListElement { name: "SUPPLY\nPRESSURE"; topic: "telemetry/feed/pressure" }
+            ListElement { name: "CHAMBER\nPRESSURE"; topic: "telemetry/chamber/pressure" }
             ListElement { name: "VENT\nTEMPERATURE"; topic: "telemetry/tank/vent/temperature" }
             ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "telemetry/chamber/temperature" }
+            ListElement { name: "VOLTAGE"; topic: "telemetry/voltage" }
+            ListElement { name: "CURRENT"; topic: "telemetry/current" }
             ListElement { name: "THRUST"; topic: "telemetry/thrust" }
             ListElement { name: "LOAD CELL 1"; topic: "telemetry/tank/weight/1" }
             ListElement { name: "LOAD CELL 2"; topic: "telemetry/tank/weight/2" }
