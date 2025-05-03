@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 
 Window {
   id: root
@@ -90,51 +91,28 @@ Window {
 
         ObjectModel {
           id: action_model
-          // CommandTile {
-          //   action: CommandAction { service: root.controller.commandService }
-          //   command: "ABORT"
-          //   width: actions_view.width
-          // }
-          // CommandTile {
-          //   action: CommandAction { service: root.controller.commandService }
-          //   command: "IGNITE"
-          //   width: actions_view.width
-          // }
-          // CommandPairTile {
-          //   action: CommandAction { service: root.controller.commandService }
-          //   Component.onCompleted: action.set_parameter("valve", "FV1-E");
-          //   implicitHeight: 110
-          //   name: "MAIN OX\nVALVE"
-          //   command: "VALVE"
-          //   width: actions_view.width
-          // }
-          // CommandPairTile {
-          //   action: CommandAction { service: root.controller.commandService }
-          //   Component.onCompleted: action.set_parameter("valve", "FV2-E");
-          //   implicitHeight: 110
-          //   name: "MAIN FUEL\nVALVE"
-          //   command: "VALVE"
-          //   width: actions_view.width
-          // }
-          // CommandPairTile {
-          //   action: CommandAction { service: root.controller.commandService }
-          //   Component.onCompleted: action.set_parameter("valve", "FV3-E");
-          //   name: "VENT VALVE"
-          //   command: "VALVE"
-          //   width: actions_view.width
-          // }
-          // CommandPairTile {
-          //   action: CommandAction {
-          //     service: root.controller.commandService;
-          //     command: "VALVE";
-          //     Component.onCompleted: set_parameter("valve", "FV-S");
-          //   }
-          //   name: "FILL VALVE"
-          //   width: actions_view.width
-          // }
+          CommandTile {
+            command: CommandAction { service: root.controller.commandService; command: "ABORT" }
+            width: actions_view.width
+          }
+          CommandTile {
+            command: CommandAction { service: root.controller.commandService; command: "LAUNCH" }
+            width: actions_view.width
+          }
+
           Tile {
-            implicitHeight: 150
+            id: tile_root
+            implicitHeight: 135
             implicitWidth: actions_view.width
+
+            property CommandAction action: CommandAction {
+              service: root.controller.commandService;
+              command: "VALVE";
+              Component.onCompleted: set_parameter("valve", "SV-N202");
+            }
+
+            property double default_interval: 2
+            property double countdown: 0
 
             Column {
               anchors.fill: parent
@@ -145,23 +123,115 @@ Window {
                 id: arming_controls
                 implicitHeight: childrenRect.height
                 implicitWidth: parent.width
-                name: "SELF TEST"
+                name: "VENT\nSEQUENCE"
               }
 
-              CommandTile {
-                action: CommandAction { service: root.controller.commandService; command: "SELFTEST" }
+              Row {
+                width: parent.width
+
+                TextField {
+                  id: time_input
+                  text: tile_root.default_interval
+                  validator: DoubleValidator { bottom: 0 }
+                }
+
+                Text {
+                  text: tile_root.countdown.toFixed(3) + " sec"
+                }
+              }
+
+              CommandControls {
+                text: "START"
                 armed: arming_controls.armed
                 implicitHeight: childrenRect.height
                 implicitWidth: parent.width
-              }
-
-              CommandTile {
-                action: CommandAction { service: root.controller.commandService; command: "SELFTEST" }
-                armed: arming_controls.armed
-                implicitHeight: childrenRect.height
-                implicitWidth: parent.width
+                onClicked: () => {
+                  tile_root.countdown = time_input.text
+                  tile_root.action.set_parameter("position", "open");
+                  tile_root.action.execute();
+                  tile_timer.start();
+                  timer_animation.start();
+                }
               }
             }
+
+              Timer {
+                id: tile_timer
+
+                interval: time_input.text * 1000
+                onTriggered: {
+                  tile_root.action.set_parameter("position", "close");
+                  tile_root.action.execute();
+                }
+              }
+
+              NumberAnimation on countdown {
+                id: timer_animation
+                to: 0
+                duration: tile_root.countdown*1000
+              }
+          }
+
+          CommandTile {
+            command: CommandAction { service: root.controller.commandService; command: "IGNITE" }
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService; command: "VALVE"
+              Component.onCompleted: set_parameter("valve", "SV-N201");
+            }
+            name: "MAIN OX\nVALVE"
+            implicitHeight: 110
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService
+              command: "VALVE"
+              Component.onCompleted: set_parameter("valve", "SV-E203");
+            }
+            name: "MAIN FUEL\nVALVE"
+            implicitHeight: 110
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService
+              command: "VALVE"
+              Component.onCompleted: set_parameter("valve", "SV-N202");
+            }
+            name: "VENT VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService;
+              command: "VALVE";
+              Component.onCompleted: set_parameter("valve", "SV-N101");
+            }
+            name: "FILL VALVE"
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService;
+              command: "VALVE";
+              Component.onCompleted: set_parameter("valve", "SV-N204");
+            }
+            name: "SOLENOID\nDUMP VALVE"
+            implicitHeight: 110
+            width: actions_view.width
+          }
+          CommandPairTile {
+            command: CommandAction {
+              service: root.controller.commandService;
+              command: "VALVE";
+              Component.onCompleted: set_parameter("valve", "SV-N102");
+            }
+            name: "REMOTE DUMP\nVALVE"
+            implicitHeight: 110
+            width: actions_view.width
           }
         }
 
@@ -238,11 +308,12 @@ Window {
             id: indicator_model
             ListElement { name: "TANK\nPRESSURE"; topic: "telemetry/tank/pressure" }
             ListElement { name: "SUPPLY\nPRESSURE"; topic: "telemetry/supply/pressure" }
-            ListElement { name: "INJECTOR\nPRESSURE"; topic: "telemetry/injector/pressure" }
             ListElement { name: "CHAMBER\nPRESSURE"; topic: "telemetry/chamber/pressure" }
             ListElement { name: "VENT\nTEMPERATURE"; topic: "telemetry/tank/vent/temperature" }
             ListElement { name: "CHAMBER\nTEMPERATURE"; topic: "telemetry/chamber/temperature" }
-            ListElement { name: "TRUST"; topic: "telemetry/thrust" }
+            ListElement { name: "VOLTAGE"; topic: "telemetry/voltage" }
+            ListElement { name: "CURRENT"; topic: "telemetry/current" }
+            ListElement { name: "THRUST"; topic: "telemetry/thrust" }
             ListElement { name: "LOAD CELL 1"; topic: "telemetry/tank/weight/1" }
             ListElement { name: "LOAD CELL 2"; topic: "telemetry/tank/weight/2" }
             ListElement { name: "LOAD CELL 3"; topic: "telemetry/tank/weight/3" }

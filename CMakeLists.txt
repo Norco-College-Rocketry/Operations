@@ -46,7 +46,7 @@ qt_add_qml_module(appGSC_Operations
         SOURCES mqttcommand.h mqttcommand.cpp
         SOURCES qmlmqttclient.h qmlmqttclient.cpp
         QML_FILES ArmingTile.qml
-        QML_FILES CommandTile.qml
+        QML_FILES CommandControls.qml
         SOURCES controller.h controller.cpp
         SOURCES action.h action.cpp
         QML_FILES CommandPairTile.qml
@@ -54,6 +54,8 @@ qt_add_qml_module(appGSC_Operations
         QML_FILES Indicator.qml
         QML_FILES StatusIndicator.qml
         QML_FILES MqttSubscriber.qml
+        QML_FILES
+        QML_FILES CommandTile.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
